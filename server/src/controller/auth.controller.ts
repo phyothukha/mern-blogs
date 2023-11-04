@@ -33,6 +33,7 @@ export const RegisterController = async (req: Request, res: Response) => {
       .json({ message: "you get an error in register route!" });
   }
 };
+
 export const LoginController = async (req: Request, res: Response) => {
   try {
     const { password, email } = req.body;
@@ -57,7 +58,7 @@ export const LoginController = async (req: Request, res: Response) => {
     const accesstoken = jwt.sign({ user }, process.env.JWT_ACCESS_SECRET);
     console.log({ accesstoken });
 
-    // console.log({ user });
+    console.log({ user });
 
     res.status(200).json({ message: " you are in login router" });
   } catch (err) {

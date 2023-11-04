@@ -1,7 +1,5 @@
-// import  from "../hooks/useToast";
-import useToast from "../hooks/useToast";
-// import useCheckOnline from "../hooks/usecheckonline";
-import { ToastAlert } from "../hooks/ToastAlert";
+import useToast from "../../hooks/useToast";
+import { ToastAlert } from "../../hooks/ToastAlert";
 
 const Dashboard = () => {
   const { hadletoast, show } = useToast();
