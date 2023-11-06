@@ -19,8 +19,6 @@ app.use("/api", authRoute);
 
 connectDb();
 
-const hello = "nay Kaung lar?";
-console.log({ hello });
 app.get("/", (req, res) => {
   res.json({ message: "you are in main route" });
 });

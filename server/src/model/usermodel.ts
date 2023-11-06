@@ -9,9 +9,9 @@ const UserSchema = new Schema(
       trim: true,
       maxLength: [20, "your name must be less than 20!"],
     },
-    email: {
+    account: {
       type: String,
-      require: [true, "your email is required!"],
+      require: [true, "your email or phone number is required!"],
       trim: true,
       unique: true,
     },

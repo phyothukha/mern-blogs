@@ -1,14 +1,15 @@
 import { Router } from "express";
 import {
-  LoginController,
+  // LoginController,
   RegisterController,
 } from "../controller/auth.controller";
+import { validateRegister } from "../middleware/valid";
 
 const router = Router();
 
-const Login = router.post("/login", LoginController);
-const Register = router.post("/register", RegisterController);
+const Register = router.post("/register", validateRegister, RegisterController);
+// const Login = router.post("/login", LoginController);
 
-const authRoute = [Login, Register];
+const authRoute = [Register];
 
 export default authRoute;
