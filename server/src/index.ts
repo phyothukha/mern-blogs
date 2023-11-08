@@ -1,13 +1,18 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.routes";
 import { connectDb } from "./config/dbconnection";
+import cors from "cors";
+import morgan from "morgan";
 
 /*config server  */
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
-
+app.use(cookieParser());
+app.use(cors());
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

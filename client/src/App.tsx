@@ -8,6 +8,7 @@ import Register from "./pages/auth/register";
 import useCheckOnline from "./hooks/usecheckonline";
 import { ToastAlert } from "./hooks/ToastAlert";
 import Todo from "./pages/dashboard/todo";
+import Notfound from "./pages/notfound";
 
 const App = () => {
   const { showtoast } = useCheckOnline();
@@ -30,6 +31,7 @@ const App = () => {
         },
       ],
     },
+
     {
       path: "login",
       element: <Login />,
@@ -37,6 +39,10 @@ const App = () => {
     {
       path: "register",
       element: <Register />,
+    },
+    {
+      path: "*",
+      element: <Notfound />,
     },
   ]);
 

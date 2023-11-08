@@ -6,38 +6,37 @@ export const validateRegister = async (
   next: NextFunction
 ) => {
   const { name, account, password } = req.body;
+  const errors = [];
 
   if (!name) {
-    return res.status(400).json({ message: "Please add your name!" });
+    errors.push("Please add your name!");
   } else if (name.length > 20) {
-    return res
-      .status(400)
-      .json({ message: "name must be at lease 20 characters! " });
+    errors.push("name must be at lease 20 characters! ");
   }
 
   if (!account) {
-    return res.status(400).json({ message: "Please add your email!" });
+    errors.push("Please add your email!");
   } else if (!validatephone(account) && !validateEmail(account)) {
-    return res
-      .status(400)
-      .json({ message: "your email or phone number  format is not correct!" });
+    errors.push("your email or phone number  format is not correct!");
   }
 
   if (password.length < 6) {
-    return res
-      .status(400)
-      .json({ message: "Password must be at least 6 chars!" });
+    errors.push("Password must be at least 6 chars!");
   }
 
+  if (errors.length > 0) return res.status(400).json({ message: errors });
   next();
 };
 
-const validateEmail = (email: string) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
+export const validateEmail = (email: string) => {
+  return email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
 };
 
-const validatephone = (phone: string) => {
+export const validatephone = (phone: string) => {
   return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
+  // return phone.match("^((09|\\+?959)9(7|6)\\d{7})$");
 };

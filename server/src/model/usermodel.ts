@@ -18,6 +18,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       require: [true, "please add your password!"],
+      minlength: [6, "Password must be at least 6 chars!"],
     },
     avatar: {
       type: String,
@@ -26,7 +27,7 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      default: "user",
+      default: "user", //admin
     },
     type: {
       type: String,

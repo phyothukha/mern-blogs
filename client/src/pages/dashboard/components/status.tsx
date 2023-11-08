@@ -24,19 +24,15 @@ const Status = ({ title }: statusprops) => {
       onDragOver={(e) => {
         setdrop(true);
         e.preventDefault();
-        console.log("dragover on the drag", dragedTask);
       }}
       onDragLeave={(e) => {
         setdrop(false);
-
         e.preventDefault();
-        console.log("drag leave ", dragedTask);
       }}
       onDrop={() => {
         setdrop(false);
 
         if (dragedTask && dragedTask.status !== title) {
-          console.log("dropped this object", dragedTask.id, dragedTask);
           moveTasks(dragedTask.id, { ...dragedTask, status: title });
         }
       }}
@@ -48,7 +44,6 @@ const Status = ({ title }: statusprops) => {
        `}
     >
       <div className=" flex justify-between items-center w-full p-2">
-        <h1 className=" text-primary font-bold font-mono">{title}</h1>
         <button
           className=" btn btn-outline btn-sm "
           onClick={() =>
