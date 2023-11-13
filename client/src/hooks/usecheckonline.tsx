@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import UseNetWork from "./use-network";
 
 const useCheckOnline = () => {
   const { isOnline } = UseNetWork();
-  const [showtoast, setShowtoast] = useState(false);
 
   useEffect(() => {
     if (!isOnline) {
-      setShowtoast(true);
+      // toast.error("not online");
     } else {
-      setShowtoast(false);
+      // toast("hello online");
     }
   }, [isOnline]);
-
-  return { showtoast };
 };
 
 export default useCheckOnline;

@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Notfound = () => {
+  const navigate = useNavigate();
   return (
     <div className=" mx-auto container h-screen flex justify-center items-center">
       <div className=" w-3/6 space-y-2 text-center">
@@ -8,9 +9,12 @@ const Notfound = () => {
           404 <span className=" font-normal"> |</span> Not Found
         </h1>
         <p className=" opacity-75">Your content is not found in this page</p>
-        <Link to={"/"} className=" btn btn-neutral btn-md btn-outline">
+        <button
+          onClick={() => navigate(-1)}
+          className=" btn btn-neutral btn-md btn-outline"
+        >
           go back
-        </Link>
+        </button>
       </div>
     </div>
   );

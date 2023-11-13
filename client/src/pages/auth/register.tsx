@@ -1,7 +1,20 @@
+import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import Input from "../../components/Input";
 
 const Register = () => {
+  const initialState = { name: "", account: "", password: "" };
+
+  const [register, setRegister] = useState(initialState);
+
+  const { name, account, password } = register;
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setRegister({ ...register, [name]: value });
+  };
+
+  const [type, setType] = useState(false);
+
   return (
     <div className=" flex justify-center items-center h-screen">
       <div className=" w-96 p-5 rounded-md border-2 border-secondary space-y-3">
@@ -9,9 +22,56 @@ const Register = () => {
           Register
         </h1>
 
-        <Input type="text" message="username" />
-        <Input type="email" message="email" />
-        <Input type="password" message="password" />
+        <form action="">
+          <label className="label">
+            <span className="label-text text-secondary-content  capitalize">
+              Username
+            </span>
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            placeholder="Type your email or phone!"
+            className={`input input-bordered text-primary  input-secondary w-full`}
+          />
+          <label className="label">
+            <span className="label-text text-secondary-content  capitalize">
+              Account
+            </span>
+          </label>
+          <input
+            type="text"
+            name="account"
+            value={account}
+            onChange={handleChange}
+            placeholder="Type your email or phone!"
+            className={`input input-bordered text-primary  input-secondary w-full`}
+          />
+
+          <label className="label">
+            <span className="label-text text-secondary-content  capitalize">
+              Password
+            </span>
+          </label>
+          <div className=" relative ">
+            <input
+              type={type ? "text" : "password"}
+              onChange={handleChange}
+              value={password}
+              name={"password"}
+              placeholder={"Type your password!"}
+              className={`input input-bordered text-primary  input-secondary w-full`}
+            />
+            <p
+              onClick={() => setType(!type)}
+              className=" absolute right-2 top-3 cursor-pointer select-none "
+            >
+              {type ? "hide" : "show"}
+            </p>
+          </div>
+        </form>
         <button className=" btn btn-secondary w-full">Register</button>
         <p>
           Already have an account! Login
