@@ -7,16 +7,20 @@ const Login = () => {
   const [login, setLogin] = useState(initialState);
   const [phone, setPhone] = useState("");
   const { account, password } = login;
+  const [loading, setLoading] = useState(false);
+
   const [type, setType] = useState(false);
   const [sms, setsms] = useState(false);
   const loginuser = useLogin();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
+    setLoading(true);
     setLogin({ ...login, [name]: value });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     loginuser.mutate(login);
   };
 
@@ -107,9 +111,9 @@ const Login = () => {
             form="account-submit"
             className=" btn btn-secondary w-full"
           >
-            {/* {loading && (
+            {loading && (
               <span className="loading loading-ring loading-xs"></span>
-            )} */}
+            )}
             Login
           </button>
         )}

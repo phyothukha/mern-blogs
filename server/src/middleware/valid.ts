@@ -38,5 +38,4 @@ export const validateEmail = (email: string) => {
 
 export const validatephone = (phone: string) => {
   return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
-  // return phone.match("^((09|\\+?959)9(7|6)\\d{7})$");
 };

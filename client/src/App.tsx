@@ -6,8 +6,10 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Todo from "./pages/dashboard/todo";
 import Notfound from "./pages/notfound";
+import useCheckOnline from "./hooks/usecheckonline";
 
 const App = () => {
+  useCheckOnline();
   const router = createBrowserRouter([
     {
       path: "/",

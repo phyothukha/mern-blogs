@@ -3,6 +3,11 @@ export interface IuserLogin {
   password: string;
 }
 
+export interface IuserRegiser extends IuserLogin {
+  name: string;
+  confirmpassword: string;
+}
+
 export interface IAuthUser extends IuserLogin {
   role: string;
   type: string;
@@ -12,4 +17,3 @@ export interface IAuthUser extends IuserLogin {
   createdAt: string;
   updatedAt: string;
 }
-

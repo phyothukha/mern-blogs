@@ -1,21 +1,21 @@
-import { useEffect } from "react";
 import { useAlertSlice } from "../store/client/alertslice";
 
-const ToastAlert = () => {
-  const { show, setAlert, message, color } = useAlertSlice();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAlert("", "", false);
-    }, 3000);
-    console.log(color);
-  }, [setAlert, show, color]);
+const useToastAlert = () => {
+  const { show, type, message } = useAlertSlice();
 
   return (
     <>
       {show && (
         <div className="toast">
-          <div className={` alert alert-${color}`}>
+          <div
+            className={` alert ${
+              type === "ERROR"
+                ? "alert-error"
+                : type === "SUCCESS"
+                ? "alert-success"
+                : "alert-info"
+            }`}
+          >
             <span>{message}</span>
           </div>
         </div>
@@ -24,4 +24,4 @@ const ToastAlert = () => {
   );
 };
 
-export default ToastAlert;
+export default useToastAlert;

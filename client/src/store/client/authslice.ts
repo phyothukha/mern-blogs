@@ -9,7 +9,6 @@ export interface Iuser {
 
 interface AuthSlice {
   auth: Iuser | null;
-  
   setAuth: (auth: Iuser) => void;
 }
 

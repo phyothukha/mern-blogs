@@ -2,10 +2,14 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface Alertslice {
-  message?: string;
-  color?: string;
-  show?: boolean;
-  setAlert: (message: string, color: string, show: boolean) => void;
+  message: string;
+  type: "SUCCESS" | "INFO" | "ERROR";
+  show: boolean;
+  setAlert: (
+    message?: string,
+    type?: "SUCCESS" | "INFO" | "ERROR",
+    show?: boolean
+  ) => void;
 }
 
 export const useAlertSlice = create<Alertslice>()(
@@ -13,11 +17,21 @@ export const useAlertSlice = create<Alertslice>()(
     persist(
       (set) => ({
         message: "",
-        color: "primary",
+        type: "INFO",
         show: false,
-        setAlert: (message, color, show) => set({ message, color, show }),
+        setAlert: (message, type, show = true) =>
+          set((store) => {
+            if (show) {
+              setTimeout(() => {
+                set((store) => ({ ...store, show: false }));
+              }, 3000);
+            }
+            return { ...store, message, type, show };
+          }),
       }),
-      { name: "alerttype" }
+      {
+        name: "alertType",
+      }
     )
   )
 );
