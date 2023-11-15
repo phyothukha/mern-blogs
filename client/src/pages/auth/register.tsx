@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { IuserRegiser } from "../../store/server/auth/interface";
-import { validateEmail, validatephone } from "../../utils/valid";
+import { valdRegister } from "../../utils/valid";
+import { useRegister } from "../../store/server/auth/mutation";
 
 const Register = () => {
   const initialState = {
@@ -12,6 +13,7 @@ const Register = () => {
   };
   const [register, setRegister] = useState(initialState);
   const [error, setError] = useState<Partial<IuserRegiser>>({});
+  const registeruser = useRegister();
   const { name, account, password, confirmpassword } = register;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,31 +23,15 @@ const Register = () => {
   };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const err=
-    const validationErr: Partial<IuserRegiser> = {};
-    if (!register.name) {
-      validationErr.name = "Name is required";
-    }
-    if (!validateEmail(register.account) && !validatephone(register.account)) {
-      validationErr.account = "your email or phone number  is not format";
-    }
 
-    if (!register.account) {
-      validationErr.account = "Email is required";
-    }
-
-    if (!register.password) {
-      validationErr.password = "password is required";
-    }
-    if (register.password !== register.confirmpassword) {
-      validationErr.confirmpassword =
-        "password and confirm-password is not match";
-    }
+    const validationErr = valdRegister(register);
 
     if (Object.keys(validationErr).length > 0) {
       setError(validationErr);
       return;
     }
+    registeruser.mutate(register);
+    console.log(register);
   };
 
   const [type, setType] = useState(false);
@@ -68,8 +54,8 @@ const Register = () => {
             name="name"
             value={name}
             onChange={handleChange}
-            placeholder="Type your email or phone!"
-            className={`input input-bordered text-primary  input-secondary w-full`}
+            placeholder="kyaw kyaw"
+            className={`input input-bordered text-primary placeholder:opacity-30  input-secondary w-full`}
           />
           {error.name && <p className="text-red-500 text-sm">{error.name}</p>}
 
@@ -79,12 +65,12 @@ const Register = () => {
             </span>
           </label>
           <input
-            type="text"
+            type="email"
             name="account"
             value={account}
             onChange={handleChange}
-            placeholder="Type your email or phone!"
-            className={`input input-bordered text-primary  input-secondary w-full`}
+            placeholder="eg@gmail.com/09123456789"
+            className={`input input-bordered text-primary placeholder:opacity-30  input-secondary w-full`}
           />
           {error.account && (
             <p className="text-red-500 text-sm">{error.account}</p>
@@ -102,7 +88,7 @@ const Register = () => {
               value={password}
               name={"password"}
               placeholder={"Type your password!"}
-              className={`input input-bordered text-primary  input-secondary w-full`}
+              className={`input placeholder:opacity-30 input-bordered text-primary  input-secondary w-full`}
             />
             <p
               onClick={() => setType(!type)}
@@ -126,7 +112,7 @@ const Register = () => {
               value={confirmpassword}
               name="confirmpassword"
               placeholder={"Type your confirm-password!"}
-              className={`input input-bordered text-primary  input-secondary w-full`}
+              className={`input placeholder:opacity-30 input-bordered text-primary  input-secondary w-full`}
             />
             <p
               onClick={() => setType(!type)}

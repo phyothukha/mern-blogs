@@ -1,30 +1,28 @@
-// import { IuserRegiser } from "../store/server/auth/interface";
+import { IuserRegiser } from "../store/server/auth/interface";
 
-// export const validRegister = (userRegister: IuserRegiser) => {
-//   const { name, account, password, confirmpassword } = userRegister;
+export const valdRegister = (register: IuserRegiser) => {
+  const validationErr: Partial<IuserRegiser> = {};
 
-//   const errors: string[] = [];
+  if (!register.account) {
+    validationErr.account = "your email or phone number is required!";
+  }
+  if (!register.name) {
+    validationErr.name = "your name is required!";
+  }
+  if (!register.password) {
+    validationErr.password = "your password is required!";
+  }
+  if (!validateEmail(register.account) && !validatephone(register.account)) {
+    validationErr.account = " your email or phone number is not format!";
+  }
 
-//   if (!name) {
-//     errors.push("Please add your name!");
-//   } else if (name.length > 20) {
-//     errors.push("your name must be at least 20 chars!");
-//   }
+  if (register.password !== register.confirmpassword) {
+    validationErr.confirmpassword =
+      "your confirm-password is not match password!";
+  }
 
-//   if (!account) {
-//     errors.push("Please add your account");
-//   } else if (validateEmail(account) && validatephone(account)) {
-//     errors.push("Email or phone number format is not correct!");
-//   }
-
-//   if (password.length < 6) {
-//     errors.push("Password must be at least 6 chars");
-//   } else if (password !== confirmpassword) {
-//     errors.push("Confimpassword did not match!");
-//   }
-//   console.log(errors);
-//   return { errors };
-// };
+  return validationErr;
+};
 
 export const validateEmail = (email: string) => {
   return email

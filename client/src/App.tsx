@@ -6,10 +6,11 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Todo from "./pages/dashboard/todo";
 import Notfound from "./pages/notfound";
-import useCheckOnline from "./hooks/usecheckonline";
+// import useCheckOnline from "./hooks/usecheckonline";
+import ActiveAccount from "./pages/auth/activeaccount";
 
 const App = () => {
-  useCheckOnline();
+  // useCheckOnline();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -28,6 +29,10 @@ const App = () => {
           element: <UserList />,
         },
       ],
+    },
+    {
+      path: "active",
+      element: <ActiveAccount />,
     },
 
     {

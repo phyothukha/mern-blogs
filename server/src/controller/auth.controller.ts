@@ -26,7 +26,7 @@ export const RegisterController = async (req: Request, res: Response) => {
     const newUser = { name, account, password: hashedpassword };
 
     const activeToken = generateActivetoken({ newUser });
-    const url = `${CLIENT_URL}/active/${activeToken}`;
+    const url = `${CLIENT_URL}/active?active_token=${activeToken}`;
     if (validateEmail(account)) {
       sendEmail(account, url, "verify your email address!");
       return res.json({ message: "Success!,Please check your email!" });
@@ -42,6 +42,7 @@ export const RegisterController = async (req: Request, res: Response) => {
 export const ActiveAccountController = async (req: Request, res: Response) => {
   try {
     const { activeToken } = req.body;
+    console.log(activeToken);
 
     const decoded = jwt.verify(
       activeToken,
@@ -50,9 +51,19 @@ export const ActiveAccountController = async (req: Request, res: Response) => {
     const { newUser } = decoded;
     if (!newUser)
       return res.status(400).json({ message: "Invalid Authentication!" });
+    console.log(newUser);
+    const user = await Users.findOne({ account: newUser.account });
+    if (user) {
+      return res
+        .status(400)
+        .json({ message: "your account is already registered!" });
+    }
+    const new_user = new Users(newUser);
 
-    const user = new Users(newUser);
-    await user.save();
+    await new_user.save();
+
+    // const user = new Users(newUser);
+    // await user.save();
 
     res.status(201).json({ message: "your account is activated!" });
   } catch (err) {
@@ -69,9 +80,11 @@ export const ActiveAccountController = async (req: Request, res: Response) => {
 export const LoginController = async (req: Request, res: Response) => {
   try {
     const { account, password } = req.body;
+    console.log(req.body);
     const user = await Users.findOne({ account });
     if (!user) {
-      return res.status(400).json({ message: " your account does not exits!" });
+      // return res.status(400).json({ message: " your account does not exits!" });
+      throw new Error("your account does not exits!");
     }
 
     LoginUser(user, password, res);
