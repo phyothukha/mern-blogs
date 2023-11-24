@@ -17,3 +17,10 @@ export interface IAuthUser extends IuserLogin {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IAuthPayload {
+  access_token?: string;
+  message?: string;
+  refresh_token?: string;
+  user?: IAuthUser;
+}

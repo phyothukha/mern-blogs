@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
   ActiveAccountController,
+  FacebookLoginController,
+  GoogleLoginController,
   LoginController,
   LogoutController,
   RefreshController,
@@ -15,7 +17,17 @@ const Active = router.post("/active-account", ActiveAccountController);
 const Login = router.post("/login", LoginController);
 const Logout = router.get("/logout", LogoutController);
 const RefreshToken = router.get("/refresh_token", RefreshController);
+const GoogleLogin = router.post("/google_login", GoogleLoginController);
+const FacebookLogin = router.post("/facebook_login", FacebookLoginController);
 
-const authRoute = [Register, Active, Login, Logout, RefreshToken];
+const authRoute = [
+  Register,
+  Active,
+  Login,
+  Logout,
+  RefreshToken,
+  GoogleLogin,
+  FacebookLogin,
+];
 
 export default authRoute;

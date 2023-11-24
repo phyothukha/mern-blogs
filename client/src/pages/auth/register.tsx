@@ -55,9 +55,11 @@ const Register = () => {
             value={name}
             onChange={handleChange}
             placeholder="kyaw kyaw"
-            className={`input input-bordered text-primary placeholder:opacity-30  input-secondary w-full`}
+            className={`input input-bordered text-primary placeholder:opacity-30 ${
+              error.name ? " input-error" : " input-secondary"
+            } w-full`}
           />
-          {error.name && <p className="text-red-500 text-sm">{error.name}</p>}
+          {error.name && <p className=" text-error text-sm">{error.name}</p>}
 
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">
@@ -70,10 +72,12 @@ const Register = () => {
             value={account}
             onChange={handleChange}
             placeholder="eg@gmail.com/09123456789"
-            className={`input input-bordered text-primary placeholder:opacity-30  input-secondary w-full`}
+            className={`input input-bordered text-primary placeholder:opacity-30 ${
+              error.account ? " input-error" : " input-secondary"
+            }  input-secondary w-full`}
           />
           {error.account && (
-            <p className="text-red-500 text-sm">{error.account}</p>
+            <p className=" text-error text-sm">{error.account}</p>
           )}
 
           <label className="label">
@@ -88,7 +92,9 @@ const Register = () => {
               value={password}
               name={"password"}
               placeholder={"Type your password!"}
-              className={`input placeholder:opacity-30 input-bordered text-primary  input-secondary w-full`}
+              className={`input placeholder:opacity-30 input-bordered text-primary ${
+                error.password ? " input-error" : " input-secondary"
+              } w-full`}
             />
             <p
               onClick={() => setType(!type)}
@@ -98,7 +104,7 @@ const Register = () => {
             </p>
           </div>
           {error.password && (
-            <p className="text-red-500 text-sm">{error.password}</p>
+            <p className=" text-error text-sm">{error.password}</p>
           )}
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">

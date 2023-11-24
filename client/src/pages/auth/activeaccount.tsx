@@ -11,10 +11,10 @@ const ActiveAccount = () => {
 
   const param = searchparams.get("active_token");
 
-  const activeAccount = async (token: string) => {
+  const activeAccount = async (activeToken: string) => {
     const response = await axios.post(
       "/active-account",
-      { activeToken: token },
+      { activeToken },
       {
         headers: { "Content-Type": "application/json" },
       }

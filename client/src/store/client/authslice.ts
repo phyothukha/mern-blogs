@@ -9,19 +9,17 @@ export interface Iuser {
 
 interface AuthSlice {
   auth: Iuser | null;
-  setAuth: (auth: Iuser) => void;
+  setAuth: (auth: Iuser | null) => void;
 }
 
 const initialAuth: Iuser = { access_token: "", user: null };
 
 export const useAuthSlice = create<AuthSlice>()(
-  devtools(
-    persist(
-      (set) => ({
-        auth: initialAuth,
-        setAuth: (auth) => set({ auth }),
-      }),
-      { name: "accesstoken" }
-    )
+  persist(
+    devtools((set) => ({
+      auth: initialAuth,
+      setAuth: (auth) => set({ auth }),
+    })),
+    { name: "accesstoken" }
   )
 );

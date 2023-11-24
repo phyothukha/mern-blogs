@@ -1,4 +1,4 @@
-import { IuserRegiser } from "../store/server/auth/interface";
+import { IuserLogin, IuserRegiser } from "../store/server/auth/interface";
 
 export const valdRegister = (register: IuserRegiser) => {
   const validationErr: Partial<IuserRegiser> = {};
@@ -21,6 +21,17 @@ export const valdRegister = (register: IuserRegiser) => {
       "your confirm-password is not match password!";
   }
 
+  return validationErr;
+};
+
+export const validLogin = (login: IuserLogin) => {
+  const validationErr: Partial<IuserLogin> = {};
+  if (!login.account) {
+    validationErr.account = "your email or phone number is required!";
+  }
+  if (!login.password) {
+    validationErr.password = "your password is required!";
+  }
   return validationErr;
 };
 

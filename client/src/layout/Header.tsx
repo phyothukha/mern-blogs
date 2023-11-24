@@ -1,9 +1,27 @@
-import { Link } from "react-router-dom";
-import profile from "/profile-1.jpg";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuthSlice } from "../store/client/authslice";
+import { logout } from "../store/server/auth/queries";
+import { useAlertSlice } from "../store/client/alertslice";
 
 const Header = () => {
   const [show, setShow] = useState(false);
+  const { auth, setAuth } = useAuthSlice();
+  const { setAlert } = useAlertSlice();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const response = await logout();
+    setAuth(null);
+
+    setAlert(response.message, "INFO");
+  };
+  useEffect(() => {
+    if (!auth?.access_token) {
+      navigate("/login");
+    }
+  }, [auth?.access_token, navigate]);
+
   const path = [
     { nav: "Profile", path: "/profile" },
     { nav: "Setting", path: "/setting" },
@@ -30,11 +48,13 @@ const Header = () => {
           </div>
 
           <div className="dropdown dropdown-end ">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img src={profile} alt="" />
-              </div>
-            </label>
+            {auth?.user && (
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img src={auth.user.avatar} alt="avatar" />
+                </div>
+              </label>
+            )}
             <ul
               tabIndex={0}
               className="mt-3 z-[1] p-2 shadow-md menu menu-sm dropdown-content bg-secondary rounded-md w-52"
@@ -48,7 +68,9 @@ const Header = () => {
               ))}
               <div className="divider my-0" />
               <li>
-                <a className=" p-2">Logout</a>
+                <button onClick={handleLogout} className=" p-2">
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
@@ -95,7 +117,9 @@ const Header = () => {
               ))}
               <div className="divider my-0" />
               <li className=" cursor-pointer">
-                <a className=" p-2">Logout</a>
+                <button className=" p-2" onClick={handleLogout}>
+                  Logout
+                </button>
               </li>
             </ul>
           </div>

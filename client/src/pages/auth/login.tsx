@@ -1,28 +1,47 @@
-import { Link } from "react-router-dom";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useLogin } from "../../store/server/auth/mutation";
+import { IuserLogin } from "../../store/server/auth/interface";
+import { validLogin } from "../../utils/valid";
+import { useAuthSlice } from "../../store/client/authslice";
+import SocialLogin from "./components/SocialLogin";
 
 const Login = () => {
   const initialState = { account: "", password: "" };
   const [login, setLogin] = useState(initialState);
   const [phone, setPhone] = useState("");
   const { account, password } = login;
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Partial<IuserLogin>>({});
+  const { auth } = useAuthSlice();
+  const navigate = useNavigate();
 
   const [type, setType] = useState(false);
   const [sms, setsms] = useState(false);
+
   const loginuser = useLogin();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setLoading(true);
+    setError({ ...error, [name]: "" });
     setLogin({ ...login, [name]: value });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const validationErr = validLogin(login);
+
+    if (Object.keys(validationErr).length > 0) {
+      setError(validationErr);
+      return;
+    }
     loginuser.mutate(login);
   };
+
+  useEffect(() => {
+    if (auth?.access_token) {
+      navigate("/");
+    }
+  }, [auth, navigate]);
 
   return (
     <div className=" flex justify-center items-center h-screen">
@@ -30,6 +49,7 @@ const Login = () => {
         <h1 className=" text-secondary font-bold text-2xl text-center capitalize">
           Login
         </h1>
+
         {sms ? (
           <form action="" onSubmit={handleSubmit} id="phone-submit">
             <label className="label">
@@ -47,7 +67,7 @@ const Login = () => {
             />
           </form>
         ) : (
-          <form action="" onSubmit={handleSubmit} id="account-submit">
+          <form onSubmit={handleSubmit} id="account-submit">
             <label className="label">
               <span className="label-text text-secondary-content  capitalize">
                 Account
@@ -59,8 +79,13 @@ const Login = () => {
               name="account"
               onChange={handleChange}
               placeholder="Type your email or phone!"
-              className={`input input-bordered text-primary  input-secondary w-full`}
+              className={`input input-bordered text-primary ${
+                error.account ? " input-error" : "input-secondary"
+              } w-full`}
             />
+            {error.account && (
+              <p className=" text-error text-sm">{error.account}</p>
+            )}
 
             <label className="label">
               <span className="label-text text-secondary-content  capitalize">
@@ -74,7 +99,9 @@ const Login = () => {
                 onChange={handleChange}
                 name={"password"}
                 placeholder={"Type your password!"}
-                className={`input input-bordered text-primary  input-secondary w-full`}
+                className={`input input-bordered text-primary ${
+                  error.password ? " input-error" : "input-secondary"
+                } w-full`}
               />
               <p
                 onClick={() => setType(!type)}
@@ -83,6 +110,9 @@ const Login = () => {
                 {type ? "hide" : "show"}
               </p>
             </div>
+            {error.password && (
+              <p className=" text-error text-sm">{error.password}</p>
+            )}
           </form>
         )}
         <div className=" flex justify-between">
@@ -97,6 +127,7 @@ const Login = () => {
             {sms ? "login with password" : "login with sms"}
           </small>
         </div>
+
         {sms ? (
           <button
             type="submit"
@@ -111,12 +142,13 @@ const Login = () => {
             form="account-submit"
             className=" btn btn-secondary w-full"
           >
-            {loading && (
-              <span className="loading loading-ring loading-xs"></span>
+            {loginuser.isPending && (
+              <span className="loading loading-spinner loading-xs"></span>
             )}
             Login
           </button>
         )}
+        <SocialLogin />
 
         <p>
           Don't you have an account yet! Register

@@ -6,11 +6,13 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Todo from "./pages/dashboard/todo";
 import Notfound from "./pages/notfound";
-// import useCheckOnline from "./hooks/usecheckonline";
 import ActiveAccount from "./pages/auth/activeaccount";
+import Setting from "./pages/dashboard/setting";
+import UserProfile from "./pages/dashboard/profile";
+import useCheckOnline from "./hooks/usecheckonline";
 
 const App = () => {
-  // useCheckOnline();
+  useCheckOnline();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -21,12 +23,24 @@ const App = () => {
           element: <Dashboard />,
         },
         {
+          path: "dashboard",
+          element: <Dashboard />,
+        },
+        {
           path: "to-do",
           element: <Todo />,
         },
         {
           path: "users",
           element: <UserList />,
+        },
+        {
+          path: "setting",
+          element: <Setting />,
+        },
+        {
+          path: "profile",
+          element: <UserProfile />,
         },
       ],
     },

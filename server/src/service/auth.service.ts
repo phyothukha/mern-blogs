@@ -4,11 +4,12 @@ import { OAuth2Client } from "google-auth-library";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { Twilio } from "twilio";
 import { Response } from "express";
-import { Iuser } from "../interface";
+import { Iuser, IuserParams } from "../interface";
 import {
   generateAccesstoken,
   generateRefreshtoken,
 } from "../config/generatetoken";
+import { Users } from "../model/usermodel";
 
 // sendmail
 
@@ -107,10 +108,33 @@ export const LoginUser = async (
     path: "/api/refresh_token",
     maxAge: 30 * 24 * 60 * 60 * 1000, //day-30
   });
+  console.log("login with google!");
 
   return res.status(200).json({
     message: "Login Success!",
     access_token,
     user: { ...user._doc, password: "" },
+  });
+};
+
+export const registerUser = async (user: IuserParams, res: Response) => {
+  const newUser = new Users(user);
+  await newUser.save();
+
+  const access_token = generateAccesstoken({ id: newUser._id });
+  const refresh_token = generateRefreshtoken({ id: newUser._id });
+
+  res.cookie("refreshtoken", refresh_token, {
+    httpOnly: true,
+    path: "/api/refresh_token",
+    maxAge: 30 * 24 * 60 * 60 * 1000, //day-30
+  });
+
+  console.log("hello your are google login");
+
+  return res.status(200).json({
+    message: "Login Success!",
+    access_token,
+    user: { ...newUser._doc, password: "" },
   });
 };
