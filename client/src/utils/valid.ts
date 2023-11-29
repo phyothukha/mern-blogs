@@ -12,7 +12,10 @@ export const valdRegister = (register: IuserRegiser) => {
   if (!register.password) {
     validationErr.password = "your password is required!";
   }
-  if (!validateEmail(register.account) && !validatephone(register.account)) {
+  if (
+    !validateEmail(register.account ?? "") &&
+    !validatePhone(register.account ?? "")
+  ) {
     validationErr.account = " your email or phone number is not format!";
   }
 
@@ -43,6 +46,14 @@ export const validateEmail = (email: string) => {
     );
 };
 
-export const validatephone = (phone: string) => {
-  return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
+// export const validatephone = (phone: string) => {
+//   // return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
+//   const re = ^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$;
+//   return re.test(phone);
+// };
+export const validatePhone = (phone: string) => {
+  const re = /^(09|\+?950?9|\+?95950?9)\d{7,9}$/;
+  return re.test(phone);
+
+  // return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
 };

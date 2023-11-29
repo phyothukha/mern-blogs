@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useLogin } from "../../store/server/auth/mutation";
+import { useLogin, useLoginWithSms } from "../../store/server/auth/mutation";
 import { IuserLogin } from "../../store/server/auth/interface";
-import { validLogin } from "../../utils/valid";
+import { validLogin, validatePhone } from "../../utils/valid";
 import { useAuthSlice } from "../../store/client/authslice";
 import SocialLogin from "./components/SocialLogin";
 
@@ -11,9 +11,10 @@ const Login = () => {
   const [login, setLogin] = useState(initialState);
   const [phone, setPhone] = useState("");
   const { account, password } = login;
-  const [error, setError] = useState<Partial<IuserLogin>>({});
+  const [error, setError] = useState<Partial<IuserLogin | null>>({});
   const { auth } = useAuthSlice();
   const navigate = useNavigate();
+  const loginsms = useLoginWithSms();
 
   const [type, setType] = useState(false);
   const [sms, setsms] = useState(false);
@@ -25,7 +26,7 @@ const Login = () => {
     setLogin({ ...login, [name]: value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleAccountSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const validationErr = validLogin(login);
@@ -35,6 +36,24 @@ const Login = () => {
       return;
     }
     loginuser.mutate(login);
+  };
+
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setError({ ...error, [name]: "" });
+    setPhone(value);
+  };
+
+  const handlePhoneSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const check = validatePhone(phone);
+    if (!check) {
+      setError({ phone: "your phone number is not format dooo" });
+    } else {
+      setError(null);
+      loginsms.mutate({ phone });
+    }
   };
 
   useEffect(() => {
@@ -51,7 +70,7 @@ const Login = () => {
         </h1>
 
         {sms ? (
-          <form action="" onSubmit={handleSubmit} id="phone-submit">
+          <form action="" onSubmit={handlePhoneSubmit} id="phone-submit">
             <label className="label">
               <span className="label-text text-secondary-content  capitalize">
                 Phone
@@ -61,13 +80,18 @@ const Login = () => {
               value={phone}
               type="text"
               name="account"
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
               placeholder="Type your email or phone!"
-              className={`input input-bordered text-primary  input-secondary w-full`}
+              className={`input input-bordered text-primary  ${
+                error?.phone ? " input-error" : "input-secondary"
+              } w-full`}
             />
+            {error?.phone && (
+              <p className=" text-error text-sm">{error.phone}</p>
+            )}
           </form>
         ) : (
-          <form onSubmit={handleSubmit} id="account-submit">
+          <form onSubmit={handleAccountSubmit} id="account-submit">
             <label className="label">
               <span className="label-text text-secondary-content  capitalize">
                 Account
@@ -80,11 +104,11 @@ const Login = () => {
               onChange={handleChange}
               placeholder="Type your email or phone!"
               className={`input input-bordered text-primary ${
-                error.account ? " input-error" : "input-secondary"
+                error?.account ? " input-error" : "input-secondary"
               } w-full`}
             />
-            {error.account && (
-              <p className=" text-error text-sm">{error.account}</p>
+            {error?.account && (
+              <p className=" text-error text-sm">{error?.account}</p>
             )}
 
             <label className="label">
@@ -100,7 +124,7 @@ const Login = () => {
                 name={"password"}
                 placeholder={"Type your password!"}
                 className={`input input-bordered text-primary ${
-                  error.password ? " input-error" : "input-secondary"
+                  error?.password ? " input-error" : "input-secondary"
                 } w-full`}
               />
               <p
@@ -110,7 +134,7 @@ const Login = () => {
                 {type ? "hide" : "show"}
               </p>
             </div>
-            {error.password && (
+            {error?.password && (
               <p className=" text-error text-sm">{error.password}</p>
             )}
           </form>
@@ -134,6 +158,9 @@ const Login = () => {
             className=" btn btn-secondary w-full"
             form="phone-submit"
           >
+            {loginsms.isPending && (
+              <span className="loading loading-spinner loading-xs"></span>
+            )}
             Login
           </button>
         ) : (

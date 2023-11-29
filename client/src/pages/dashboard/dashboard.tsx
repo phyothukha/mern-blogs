@@ -1,7 +1,11 @@
 import { useRefreshtoken } from "../../store/server/auth/queries";
 
 const Dashboard = () => {
-  const { data } = useRefreshtoken();
+  const { data, isLoading } = useRefreshtoken();
+
+  if (isLoading) {
+    return "Loading....";
+  }
   console.log(data);
 
   return (

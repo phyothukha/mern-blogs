@@ -4,11 +4,7 @@ import { axios } from "..";
 const refreshtoken = async () => {
   const logged = localStorage.getItem("logged");
   if (logged !== "phyrous") return;
-  const res = await axios.get("/refresh_token", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await axios.get("/refresh_token");
   return res;
 };
 
@@ -23,11 +19,7 @@ export const useRefreshtoken = () => {
 export const logout = async () => {
   localStorage.clear();
 
-  const res = await axios.get("/logout", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await axios.get("/logout");
 
   return res.data;
 };

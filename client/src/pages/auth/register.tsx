@@ -31,7 +31,6 @@ const Register = () => {
       return;
     }
     registeruser.mutate(register);
-    console.log(register);
   };
 
   const [type, setType] = useState(false);

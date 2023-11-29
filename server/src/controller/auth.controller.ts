@@ -10,13 +10,14 @@ import {
   registerUser,
   sendEmail,
   sendSMS,
+  smsOTP,
+  verifysms,
 } from "../service/auth.service";
 import {
   generateAccesstoken,
   generateActivetoken,
 } from "../config/generatetoken";
 import { OAuth2Client } from "google-auth-library";
-// import fetch from "node-fetch";
 
 const client = new OAuth2Client(`${process.env.MAIL_CLIENT_ID}`);
 
@@ -169,18 +170,13 @@ export const FacebookLoginController = async (req: Request, res: Response) => {
   try {
     const { accessToken, userID } = req.body;
 
-    // const URL = `https://graph.facebook.com/${userID}?fields=id,name,email,picture&type=large&redirect=true&width=500&height=500&access_token=${accessToken}`;
     const URL = `https://graph.facebook.com/${userID}?fields=id,name,email,picture&access_token=${accessToken}`;
-    // const URL = `
-    //     https://graph.facebook.com/v3.0/${userID}/?fields=id,name,email,picture&type=large&access_token=${accessToken}
-    //   `;
 
     const data = await fetch(URL)
       .then((res) => res.json())
       .then((res) => {
         return res;
       });
-    console.log(data);
     const { email, name } = data;
     const password = email + "your facbook secret password!";
     const passwordHash = await bcrypt.hash(password, 12);
@@ -199,6 +195,50 @@ export const FacebookLoginController = async (req: Request, res: Response) => {
         type: "login",
       };
 
+      registerUser(user, res);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const LoginSMSController = async (req: Request, res: Response) => {
+  try {
+    const { phone } = req.body;
+    console.log(phone);
+    if (!phone) {
+      return res.status(400).json({ message: "phone number is required!" });
+    }
+
+    const data = await smsOTP(phone, "sms");
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const SmsVerifyController = async (req: Request, res: Response) => {
+  try {
+    const { phone, code } = req.body;
+    console.log(phone, code);
+
+    const data = await verifysms(phone, code);
+    if (!data.valid)
+      return res.status(400).json({ message: "invalid authentication!" });
+    const password = phone + "your phone secret";
+    const passwordHash = await bcrypt.hash(password, 12);
+    const user = await Users.findOne({ account: phone });
+
+    if (user) {
+      LoginUser(user, password, res);
+    } else {
+      const user = {
+        name: phone,
+        account: phone,
+        password: passwordHash,
+        type: "login",
+      };
       registerUser(user, res);
     }
   } catch (err) {

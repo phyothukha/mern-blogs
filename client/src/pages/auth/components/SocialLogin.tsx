@@ -1,51 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useEffect } from "react";
 import {
   useFacebookLogin,
   useGoogleLogin,
 } from "../../../store/server/auth/mutation";
-import { GoogleLogin, GoogleLoginResponse } from "../../../utils/googleapi";
-import { gapi } from "gapi-script";
-import { useEffect } from "react";
+// import { gapi } from "gapi-script";
 import {
   FacebookLogin,
   FacebookLoginAuthResponse,
 } from "react-facebook-login-lite";
+import { GoogleLogin } from "@react-oauth/google";
 
 const SocialLogin = () => {
   const googlelogin = useGoogleLogin();
   const facebookLogin = useFacebookLogin();
-  const googleclientId = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
+  
   const facebookAppId = import.meta.env.VITE_APP_ID;
 
-  useEffect(() => {
-    gapi.load("client:auth2", () => {
-      gapi.client.init({ clientId: googleclientId });
-    });
-  }, [googleclientId]);
+  // useEffect(() => {
+  //   const initGapi = async () => {
+  //     await new Promise<void>((resolve) => {
+  //       gapi.load("client:auth2", () => {
+  //         gapi.client.init({ clientId: googleclientId });
+  //         resolve();
+  //       });
+  //     });
+  //   };
 
-  const onSuccess = (googleUser: GoogleLoginResponse) => {
-    const id_token = googleUser.getAuthResponse().id_token;
-
-    googlelogin.mutate(id_token);
-  };
+  //   initGapi();
+  // }, [googleclientId]);
 
   const onFbSuccess = (response: FacebookLoginAuthResponse) => {
     const { accessToken, userID } = response.authResponse;
 
     facebookLogin.mutate({ accessToken, userID });
-    console.log({ accessToken, userID });
-  };
-  const onFbFailur = (err: any) => {
-    console.log(err);
   };
 
   return (
     <>
       <div className="my-2">
         <GoogleLogin
-          client_id={googleclientId}
-          cookiepolicy="single_host_origin"
-          onSuccess={onSuccess}
+          onSuccess={(credentialResponse) => {
+            googlelogin.mutate(credentialResponse.credential ?? "");
+          }}
         />
       </div>
 
@@ -53,7 +49,6 @@ const SocialLogin = () => {
         <FacebookLogin
           appId={facebookAppId}
           onSuccess={onFbSuccess}
-          onFailure={onFbFailur}
           theme="dark"
           imgSrc={
             "https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"

@@ -75,8 +75,12 @@ export const sendEmail = async (to: string, url: string, txt: string) => {
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const from = process.env.TWILIO_PHONE_NUMBER;
-const client = new Twilio(accountSid, authToken);
+const serviceId = process.env.TWILIO_SERVICE_SID;
 
+// const client = new Twilio(accountSid, authToken);
+
+const client = new Twilio(accountSid, authToken);
+// RY4449QF7D9MYZ59Y2FT7SWE
 export const sendSMS = (to: string, body: string, txt: string) => {
   try {
     client.messages
@@ -88,6 +92,31 @@ export const sendSMS = (to: string, body: string, txt: string) => {
       .then((message) => console.log(message.sid));
   } catch (err) {
     console.log("you got an error!", err);
+  }
+};
+export const smsOTP = async (to: string, channel: string) => {
+  try {
+    const data = await client.verify.v2
+      // .services(serviceId)
+      .services("VA3253dcb15a478ae14be6daf774ca192b")
+      .verifications.create({ to, channel });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const verifysms = async (to: string, code: string) => {
+  try {
+    const data = await client.verify.v2
+      .services(serviceId)
+      .verificationChecks.create({ to, code });
+    return data;
+  } catch (err) {
+    // console.log(err.status===404);
+    const errMsg =
+      err.status === 404 ? "your otp code is expired!" : err.message;
+    console.log(errMsg);
   }
 };
 
@@ -108,7 +137,6 @@ export const LoginUser = async (
     path: "/api/refresh_token",
     maxAge: 30 * 24 * 60 * 60 * 1000, //day-30
   });
-  console.log("login with google!");
 
   return res.status(200).json({
     message: "Login Success!",
@@ -126,11 +154,10 @@ export const registerUser = async (user: IuserParams, res: Response) => {
 
   res.cookie("refreshtoken", refresh_token, {
     httpOnly: true,
+
     path: "/api/refresh_token",
     maxAge: 30 * 24 * 60 * 60 * 1000, //day-30
   });
-
-  console.log("hello your are google login");
 
   return res.status(200).json({
     message: "Login Success!",

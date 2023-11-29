@@ -3,12 +3,16 @@
 @tailwind utilities;
 
 #my-signin2 > div {
-  @apply !btn !btn-secondary rounded-md !w-full;
+  @apply bg-secondary !border-none rounded-md !w-full;
 }
 #my-signin2 .abcRioButtonIcon {
-  @apply rounded-md flex items-center ;
+  @apply rounded-md flex  items-center;
 }
 
 #fb-login {
   @apply !h-12 !btn !btn-secondary p-1 rounded-sm overflow-hidden items-start !border-none;
+}
+
+input::-webkit-inner-spin-button {
+  @apply appearance-none;
 }

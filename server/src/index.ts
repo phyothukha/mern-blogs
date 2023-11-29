@@ -11,6 +11,7 @@ import morgan from "morgan";
 const app = express();
 const PORT = process.env.PORT;
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:5173",

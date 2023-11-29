@@ -10,6 +10,7 @@ import ActiveAccount from "./pages/auth/activeaccount";
 import Setting from "./pages/dashboard/setting";
 import UserProfile from "./pages/dashboard/profile";
 import useCheckOnline from "./hooks/usecheckonline";
+import SmsVerify from "./pages/auth/sms-verify";
 
 const App = () => {
   useCheckOnline();
@@ -52,6 +53,10 @@ const App = () => {
     {
       path: "login",
       element: <Login />,
+    },
+    {
+      path: "sms-verify",
+      element: <SmsVerify />,
     },
     {
       path: "register",
