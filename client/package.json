@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.13.0",
     "@react-oauth/google": "^0.12.1",
+    "@tabler/icons-react": "^2.42.0",
     "@tanstack/react-query": "^5.8.1",
     "axios": "^1.5.1",
     "gapi-script": "^1.2.0",
@@ -19,7 +22,6 @@
     "react-dom": "^18.2.0",
     "react-facebook-login-lite": "^1.0.0",
     "react-google-login-lite": "^1.0.0",
-    "react-icons": "^4.12.0",
     "react-otp-input": "^3.1.0",
     "react-router-dom": "^6.17.0",
     "zustand": "^4.4.4"

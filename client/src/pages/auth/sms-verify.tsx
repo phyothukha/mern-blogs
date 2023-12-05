@@ -1,16 +1,24 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   useLoginWithSms,
   useSmsVerify,
 } from "../../store/server/auth/mutation";
+import { useAuthSlice } from "../../store/client/authslice";
 
 const SmsVerify = () => {
+  {/* for statemanagement hook */}
   const { state } = useLocation();
-  const smsVerify = useSmsVerify();
-  const loginsms = useLoginWithSms();
+  const { auth } = useAuthSlice();
+
+  [/**  for timer state */]
   const [timer, setTimer] = useState(60);
   const [code, setCode] = useState("");
+
+  [/* for server data fetching state */]
+  const smsVerify = useSmsVerify();
+  const navigate = useNavigate();
+  const loginsms = useLoginWithSms();
 
   useEffect(() => {
     const decreasetimer = () => {
@@ -21,6 +29,12 @@ const SmsVerify = () => {
     const intervalId = setInterval(decreasetimer, 1000);
     return () => clearInterval(intervalId);
   }, [timer]);
+
+  useEffect(() => {
+    if (auth?.access_token) {
+      navigate("/");
+    }
+  }, [auth, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -12,7 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <GoogleOAuthProvider clientId={googleclientId}>
       <ToastAlert />
-
       <App />
     </GoogleOAuthProvider>
   </QueryClientProvider>

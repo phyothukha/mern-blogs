@@ -24,13 +24,10 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (user: IuserLogin) => loginUser(user),
     onSuccess: (data: IAuthPayload) => {
-      console.log(data);
       const access_token = data.access_token;
       const user = data.user;
       localStorage.setItem("logged", "phyrous");
-      queryClient.invalidateQueries({
-        queryKey: ["refresh-token", access_token],
-      });
+
       setAuth({ access_token, user });
       setAlert(data.message, "SUCCESS");
       navigate("/");
@@ -41,6 +38,11 @@ export const useLogin = () => {
           ? err.response?.data.message
           : "Something went wrong!";
       setAlert(errMsg, "ERROR");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["refresh-token"],
+      });
     },
   });
 };
@@ -86,9 +88,7 @@ export const useGoogleLogin = () => {
       const access_token = data.access_token;
       const user = data.user;
       localStorage.setItem("logged", "phyrous");
-      queryClient.invalidateQueries({
-        queryKey: ["refresh-token", access_token],
-      });
+
       setAuth({ access_token, user });
       setAlert(data.message, "SUCCESS");
       navigate("/");
@@ -100,6 +100,11 @@ export const useGoogleLogin = () => {
           ? err.response?.data.message
           : "Something went wrong!";
       setAlert(errMsg, "ERROR");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["refresh-token"],
+      });
     },
   });
 };
@@ -127,9 +132,7 @@ export const useFacebookLogin = () => {
       const access_token = data.access_token;
       const user = data.user;
       localStorage.setItem("logged", "phyrous");
-      queryClient.invalidateQueries({
-        queryKey: ["refresh-token", access_token],
-      });
+
       setAuth({ access_token, user });
       setAlert(data.message, "SUCCESS");
       navigate("/");
@@ -140,6 +143,11 @@ export const useFacebookLogin = () => {
           ? err.response?.data.message
           : "Something went wrong!";
       setAlert(errMsg, "ERROR");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["refresh-token"],
+      });
     },
   });
 };
@@ -189,9 +197,7 @@ export const useSmsVerify = () => {
       const access_token = data.access_token;
       const user = data.user;
       localStorage.setItem("logged", "phyrous");
-      queryClient.invalidateQueries({
-        queryKey: ["refresh-token", access_token],
-      });
+
       setAuth({ access_token, user });
       setAlert(data.message, "SUCCESS");
       navigate("/");
@@ -204,6 +210,11 @@ export const useSmsVerify = () => {
             : "something went wrong!";
         setAlert(errMsg, "ERROR");
       }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["refresh-token"],
+      });
     },
   });
 };

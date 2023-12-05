@@ -28,7 +28,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="navbar bg-secondary shadow-md ">
+    <header className="navbar bg-secondary shadow-md">
       <nav className=" container flex justify-between mx-auto absolute left-0 right-0 p-4">
         <div>
           <Link
@@ -47,11 +47,11 @@ const Header = () => {
             />
           </div>
 
-          <div className="dropdown dropdown-end ">
+          <div className="dropdown dropdown-end">
             {auth?.user && (
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src={auth.user.avatar} alt="avatar" />
+                  <img src={auth.user.avatar as string} alt="avatar" />
                 </div>
               </label>
             )}
@@ -98,7 +98,7 @@ const Header = () => {
           </label>
         </div>
         {show && (
-          <div className=" flex lg:hidden flex-col absolute bg-secondary top-20 p-5 w-full transform translate-x-[50%] -left-[50%]">
+          <div className=" flex lg:hidden flex-col absolute bg-secondary top-20 p-5 w-full transform translate-x-[50%] -left-[50%] z-10">
             <div className="form-control">
               <input
                 type="text"

@@ -10,13 +10,13 @@ export interface IuserRegiser extends IuserLogin {
 }
 
 export interface IAuthUser extends IuserLogin {
-  role: string;
-  type: string;
-  _id: string;
+  role?: string;
+  type?: string;
+  _id?: string;
   name: string;
-  avatar: string;
-  createdAt: string;
-  updatedAt: string;
+  avatar: string | File;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IAuthPayload {

@@ -23,7 +23,7 @@ const client = new OAuth2Client(`${process.env.MAIL_CLIENT_ID}`);
 
 const clientUrl = process.env.CLIENT_URL;
 
-export const RegisterController = async (req: Request, res: Response) => {
+const RegisterController = async (req: Request, res: Response) => {
   try {
     const { account, name, password } = req.body;
 
@@ -50,7 +50,7 @@ export const RegisterController = async (req: Request, res: Response) => {
   }
 };
 
-export const ActiveAccountController = async (req: Request, res: Response) => {
+const ActiveAccountController = async (req: Request, res: Response) => {
   try {
     const { activeToken } = req.body;
     console.log(activeToken);
@@ -85,7 +85,7 @@ export const ActiveAccountController = async (req: Request, res: Response) => {
   }
 };
 
-export const LoginController = async (req: Request, res: Response) => {
+const LoginController = async (req: Request, res: Response) => {
   try {
     const { account, password } = req.body;
     const user = await Users.findOne({ account });
@@ -100,7 +100,7 @@ export const LoginController = async (req: Request, res: Response) => {
   }
 };
 
-export const LogoutController = async (req: Request, res: Response) => {
+const LogoutController = async (req: Request, res: Response) => {
   try {
     res.clearCookie("refreshtoken", { path: "/api/refresh_token" });
     return res.json({ message: "Logged out!" });
@@ -109,7 +109,7 @@ export const LogoutController = async (req: Request, res: Response) => {
   }
 };
 
-export const RefreshController = async (req: Request, res: Response) => {
+const RefreshController = async (req: Request, res: Response) => {
   try {
     const rf_token = req.cookies.refreshtoken;
     if (!rf_token)
@@ -130,7 +130,7 @@ export const RefreshController = async (req: Request, res: Response) => {
   }
 };
 
-export const GoogleLoginController = async (req: Request, res: Response) => {
+const GoogleLoginController = async (req: Request, res: Response) => {
   try {
     const { id_token } = req.body;
     const verify = await client.verifyIdToken({
@@ -156,7 +156,7 @@ export const GoogleLoginController = async (req: Request, res: Response) => {
         account: email,
         password: passwordHash,
         avatar: picture,
-        type: "login",
+        type: "google",
       };
 
       registerUser(user, res);
@@ -166,7 +166,7 @@ export const GoogleLoginController = async (req: Request, res: Response) => {
   }
 };
 
-export const FacebookLoginController = async (req: Request, res: Response) => {
+const FacebookLoginController = async (req: Request, res: Response) => {
   try {
     const { accessToken, userID } = req.body;
 
@@ -192,7 +192,7 @@ export const FacebookLoginController = async (req: Request, res: Response) => {
         password: passwordHash,
         avatar:
           "https://scontent.frgn7-2.fna.fbcdn.net/v/t39.30808-1/242490108_615864756487001_2200401206045006686_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=zZN_VR2inQgAX-e7Mkl&_nc_ht=scontent.frgn7-2.fna&oh=00_AfC_Coui3mJa4tJfdO8g79Z9P1nGVNN0VAdY2tuQAOrmkQ&oe=6564A357",
-        type: "login",
+        type: "facebook",
       };
 
       registerUser(user, res);
@@ -202,7 +202,7 @@ export const FacebookLoginController = async (req: Request, res: Response) => {
   }
 };
 
-export const LoginSMSController = async (req: Request, res: Response) => {
+const LoginSMSController = async (req: Request, res: Response) => {
   try {
     const { phone } = req.body;
     console.log(phone);
@@ -218,7 +218,7 @@ export const LoginSMSController = async (req: Request, res: Response) => {
   }
 };
 
-export const SmsVerifyController = async (req: Request, res: Response) => {
+const SmsVerifyController = async (req: Request, res: Response) => {
   try {
     const { phone, code } = req.body;
     console.log(phone, code);
@@ -237,11 +237,23 @@ export const SmsVerifyController = async (req: Request, res: Response) => {
         name: phone,
         account: phone,
         password: passwordHash,
-        type: "login",
+        type: "sms",
       };
       registerUser(user, res);
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
+};
+
+export const authController = {
+  RegisterController,
+  ActiveAccountController,
+  LoginController,
+  LogoutController,
+  RefreshController,
+  GoogleLoginController,
+  FacebookLoginController,
+  LoginSMSController,
+  SmsVerifyController,
 };

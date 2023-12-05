@@ -46,14 +46,15 @@ export const validateEmail = (email: string) => {
     );
 };
 
-// export const validatephone = (phone: string) => {
-//   // return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
-//   const re = ^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$;
-//   return re.test(phone);
-// };
 export const validatePhone = (phone: string) => {
   const re = /^(09|\+?950?9|\+?95950?9)\d{7,9}$/;
   return re.test(phone);
+};
 
-  // return phone.match("^(09|\\+?950?9|\\+?95950?9)\\d{7,9}$");
+export const checkPassword = (password: string, confirmPassword: string) => {
+  if (password.length < 6) {
+    return (password = "your password must be less than 6");
+  } else if (password !== confirmPassword) {
+    return (confirmPassword = "your confirm password did not match!");
+  }
 };

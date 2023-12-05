@@ -8,12 +8,14 @@ import Todo from "./pages/dashboard/todo";
 import Notfound from "./pages/notfound";
 import ActiveAccount from "./pages/auth/activeaccount";
 import Setting from "./pages/dashboard/setting";
-import UserProfile from "./pages/dashboard/profile";
 import useCheckOnline from "./hooks/usecheckonline";
 import SmsVerify from "./pages/auth/sms-verify";
+import Profile from "./pages/dashboard/profile";
+import { useRefreshtoken } from "./store/server/auth/queries";
 
 const App = () => {
   useCheckOnline();
+  useRefreshtoken();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -41,7 +43,7 @@ const App = () => {
         },
         {
           path: "profile",
-          element: <UserProfile />,
+          element: <Profile />,
         },
       ],
     },

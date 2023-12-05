@@ -1,16 +1,17 @@
 import { useAlertSlice } from "../store/client/alertslice";
 import {
-  IoIosWarning,
-  IoMdInformationCircle,
-  IoMdCheckmarkCircle,
-} from "react-icons/io";
+  IconAlertTriangleFilled,
+  IconInfoCircleFilled,
+  IconCircleCheckFilled,
+} from "@tabler/icons-react";
+
 const useToastAlert = () => {
   const { show, type, message } = useAlertSlice();
 
   return (
     <>
       {show && (
-        <div className="toast toast-top toast-center">
+        <div className="toast toast-top toast-center z-50">
           <div
             role="alert"
             className={` alert ${
@@ -23,11 +24,11 @@ const useToastAlert = () => {
           >
             <div className=" text-3xl">
               {type === "ERROR" ? (
-                <IoIosWarning />
+                <IconAlertTriangleFilled />
               ) : type === "SUCCESS" ? (
-                <IoMdCheckmarkCircle />
+                <IconCircleCheckFilled />
               ) : (
-                <IoMdInformationCircle />
+                <IconInfoCircleFilled />
               )}
             </div>
 
