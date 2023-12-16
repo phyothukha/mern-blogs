@@ -7,7 +7,7 @@ import cors from "cors";
 import morgan from "morgan";
 import router from "./routes/router";
 
-/*config server  */
+/**config server  */
 const app = express();
 const PORT = process.env.PORT;
 app.use(cookieParser());
@@ -26,6 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router.authRoute);
 app.use("/api", router.userRoutes);
+app.use("/api", router.categoryRoute);
+app.use("/api", router.blogRoute);
 
 /**  connecting to databases */
 

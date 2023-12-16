@@ -1,25 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useLogin, useLoginWithSms } from "../../store/server/auth/mutation";
-import { IuserLogin } from "../../store/server/auth/interface";
 import { validLogin, validatePhone } from "../../utils/valid";
 import { useAuthSlice } from "../../store/client/authslice";
 import SocialLogin from "./components/SocialLogin";
+import { IuserLogin } from "../../store/server/interface";
 
 const Login = () => {
   const initialState = { account: "", password: "" };
-  const [login, setLogin] = useState(initialState);
-  const [phone, setPhone] = useState("");
-  const { account, password } = login;
-  const [error, setError] = useState<Partial<IuserLogin | null>>({});
-  const { auth } = useAuthSlice();
   const navigate = useNavigate();
   const loginsms = useLoginWithSms();
-
-  const [type, setType] = useState(false);
   const [sms, setsms] = useState(false);
-
+  const [login, setLogin] = useState(initialState);
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState<Partial<IuserLogin | null>>({});
+  const [type, setType] = useState(false);
+  const { account, password } = login;
+  const { auth } = useAuthSlice();
   const loginuser = useLogin();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setError({ ...error, [name]: "" });

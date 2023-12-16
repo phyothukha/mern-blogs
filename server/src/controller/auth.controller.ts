@@ -33,6 +33,8 @@ const RegisterController = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: "your account is already exits!" });
     }
+
+    /** hashing password! */
     const hashedpassword = await bcrypt.hash(password, 10);
     const newUser = { name, account, password: hashedpassword };
 
@@ -49,6 +51,8 @@ const RegisterController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+/** when register is done ,check out your email and active your account */
 
 const ActiveAccountController = async (req: Request, res: Response) => {
   try {
@@ -85,6 +89,8 @@ const ActiveAccountController = async (req: Request, res: Response) => {
   }
 };
 
+/** if your account already registered, you can login with your own account */
+
 const LoginController = async (req: Request, res: Response) => {
   try {
     const { account, password } = req.body;
@@ -120,6 +126,7 @@ const RefreshController = async (req: Request, res: Response) => {
     ) as IDecode;
     if (!decoded) return res.status(400).json({ message: "Please Login now!" });
 
+    /** select minus is your  password is miss from your user schema! */
     const user = await Users.findById(decoded.id).select("-password");
     if (!user)
       return res.status(400).json({ message: "This account does not exists" });
@@ -129,6 +136,8 @@ const RefreshController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+/** if you have google account you can login with your google account! */
 
 const GoogleLoginController = async (req: Request, res: Response) => {
   try {
@@ -166,6 +175,8 @@ const GoogleLoginController = async (req: Request, res: Response) => {
   }
 };
 
+/** if you have facebook account you can login with your facebook account! */
+
 const FacebookLoginController = async (req: Request, res: Response) => {
   try {
     const { accessToken, userID } = req.body;
@@ -201,6 +212,8 @@ const FacebookLoginController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+/** if you have sms number you can login with your phone number! */
 
 const LoginSMSController = async (req: Request, res: Response) => {
   try {

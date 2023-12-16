@@ -1,15 +1,14 @@
-import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className=" flex flex-col justify-between h-screen ">
+    <div className=" flex flex-col justify-between ">
       <Header />
-
-      <div className=" flex-1 container mx-auto">
+      <main className=" flex-1 container mx-auto">
         <Outlet />
-      </div>
+      </main>
       <Footer />
     </div>
   );

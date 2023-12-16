@@ -9,7 +9,7 @@ const useCheckOnline = () => {
   useEffect(() => {
     if (!isOnline) {
       console.log("you are offline!");
-      setAlert("you are currently offline 💥", "ERROR", true);
+      setAlert("you are currently offline 💥", "ERROR");
     } else {
       console.log("you are online");
       setAlert("back online 🛩️", "INFO");

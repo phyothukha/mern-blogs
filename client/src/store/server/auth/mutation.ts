@@ -1,15 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axios } from "..";
-import {
-  IAuthPayload,
-  ISmsPayload,
-  IuserLogin,
-  IuserRegiser,
-} from "./interface";
+// import {
+//   IAuthPayload,
+//   ISmsPayload,
+//   IuserLogin,
+//   IuserRegiser,
+// } from "./interface";
+
 import { AxiosError } from "axios";
 import { useAuthSlice } from "../../client/authslice";
 import { useAlertSlice } from "../../client/alertslice";
 import { useNavigate } from "react-router-dom";
+import { IAuthPayload, ISmsPayload, IuserLogin, IuserRegiser } from "../interface";
 
 const loginUser = async (user: IuserLogin) => {
   const res = await axios.post("/login", user);

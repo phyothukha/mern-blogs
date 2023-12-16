@@ -11,7 +11,7 @@ import {
 } from "../config/generatetoken";
 import { Users } from "../model/usermodel";
 
-// sendmail
+/** sendmail */
 
 const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
 
@@ -19,6 +19,9 @@ const CLIENT_ID = process.env.MAIL_CLIENT_ID;
 const CLIENT_SECRET = process.env.MAIL_CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.MAIL_REFRESH_TOKEN;
 const SENDER_MAIL = process.env.SENDER_EMAIL_ADDRESS;
+
+/** about this mail login with  https://console.cloud.google.com/apis/dashboard
+ *  and read documentation about nodemailer  https://nodemailer.com */
 
 export const sendEmail = async (to: string, url: string, txt: string) => {
   const oauth2Client = new OAuth2Client(
@@ -70,17 +73,23 @@ export const sendEmail = async (to: string, url: string, txt: string) => {
   }
 };
 
-// send sms
+/**send sms*/
+
+/** if you want to read about this twilio
+ *
+ * go to this https://www.twilio.com/docs/messaging/quickstart
+ *
+ * twilio is not support in myanmar if you get err code 60605
+ * go to https://console.twilio.com/us1/develop/verify/settings/geopermissions
+ * and search your country verify
+ */
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const from = process.env.TWILIO_PHONE_NUMBER;
 const serviceId = process.env.TWILIO_SERVICE_SID;
 
-// const client = new Twilio(accountSid, authToken);
-
 const client = new Twilio(accountSid, authToken);
-// RY4449QF7D9MYZ59Y2FT7SWE
 export const sendSMS = (to: string, body: string, txt: string) => {
   try {
     client.messages
@@ -97,8 +106,7 @@ export const sendSMS = (to: string, body: string, txt: string) => {
 export const smsOTP = async (to: string, channel: string) => {
   try {
     const data = await client.verify.v2
-      // .services(serviceId)
-      .services("VA3253dcb15a478ae14be6daf774ca192b")
+      .services(serviceId)
       .verifications.create({ to, channel });
     return data;
   } catch (err) {
@@ -113,12 +121,13 @@ export const verifysms = async (to: string, code: string) => {
       .verificationChecks.create({ to, code });
     return data;
   } catch (err) {
-    // console.log(err.status===404);
     const errMsg =
       err.status === 404 ? "your otp code is expired!" : err.message;
     console.log(errMsg);
   }
 };
+
+/** login or register  */
 
 export const LoginUser = async (
   user: Iuser,
@@ -126,16 +135,25 @@ export const LoginUser = async (
   res: Response
 ) => {
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch)
-    return res.status(400).json({ message: "Password is incorrect!" });
+  if (!isMatch) {
+    const errMsg =
+      user.type === "register"
+        ? "Password is incorrect"
+        : `password is incorrect this account is Login with ${user.type}`;
+
+    return res.status(400).json({ message: errMsg });
+  }
+  /** when your account is loginned!. permison token you can get  */
 
   const access_token = generateAccesstoken({ id: user._id });
   const refresh_token = generateRefreshtoken({ id: user._id });
 
+  /** this permission login can send as http only cookie to refresh token route! */
+
   res.cookie("refreshtoken", refresh_token, {
     httpOnly: true,
     path: "/api/refresh_token",
-    maxAge: 30 * 24 * 60 * 60 * 1000, //day-30
+    maxAge: 30 * 24 * 60 * 60 * 1000 /**day-30*/,
   });
 
   return res.status(200).json({

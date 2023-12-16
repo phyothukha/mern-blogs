@@ -1,4 +1,4 @@
-import { IuserLogin, IuserRegiser } from "../store/server/auth/interface";
+import { Iblog, IuserLogin, IuserRegiser } from "../store/server/interface";
 
 export const valdRegister = (register: IuserRegiser) => {
   const validationErr: Partial<IuserRegiser> = {};
@@ -57,4 +57,34 @@ export const checkPassword = (password: string, confirmPassword: string) => {
   } else if (password !== confirmPassword) {
     return (confirmPassword = "your confirm password did not match!");
   }
+};
+
+export const validationCreateBlog = (blog: Iblog) => {
+  const validationErr: Partial<Iblog> = {};
+
+  if (blog.title.trim().length < 20) {
+    validationErr.title = "Title has at least 20 chars";
+  } else if (blog.title.trim().length > 50) {
+    validationErr.title = "Title has up to 50 chars";
+  }
+
+  if (blog.content.trim().length < 2000) {
+    validationErr.content = "Content has at least 2000 chars";
+  }
+
+  if (blog.description.trim().length < 50) {
+    validationErr.description = "description has at least 50 chars";
+  } else if (blog.description.trim().length > 200) {
+    validationErr.description = "description has up to 200 chars long.";
+  }
+
+  if (!blog.thumbnail) {
+    validationErr.thumbnail = "thumbnail cannot be blank!";
+  }
+
+  if (!blog.category) {
+    validationErr.category = "Category cannot be blank!";
+  }
+
+  return validationErr;
 };

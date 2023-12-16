@@ -4,7 +4,7 @@ import { Users } from "../model/usermodel";
 import { IDecode } from "../interface";
 import { IRequest } from "../interface/express";
 
-export const auth = async (
+export const authentication = async (
   req: IRequest,
   res: Response,
   next: NextFunction
@@ -28,7 +28,25 @@ export const auth = async (
 
     req.user = user;
 
-    console.log("authen success go to user profile update!");
+    /** all done pass through next function */
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const AdminPersmission = async (
+  req: IRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user)
+      return res.status(400).json({ message: "invalid authentication!" });
+
+    if (req.user.role !== "admin")
+      return res.status(400).json({ message: "invalid user Authentication!" });
+
     next();
   } catch (err) {
     return res.status(500).json({ message: err.message });

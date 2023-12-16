@@ -1,11 +1,6 @@
 import { create } from "zustand";
-import { IAuthUser } from "../server/auth/interface";
 import { devtools, persist } from "zustand/middleware";
-
-export interface Iuser {
-  access_token?: string;
-  user?: IAuthUser | null;
-}
+import { Iuser } from "../server/interface";
 
 interface AuthSlice {
   auth: Iuser | null;

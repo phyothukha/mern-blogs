@@ -1,9 +1,7 @@
-// import { useEffect } from "react";
 import {
   useFacebookLogin,
   useGoogleLogin,
 } from "../../../store/server/auth/mutation";
-// import { gapi } from "gapi-script";
 import {
   FacebookLogin,
   FacebookLoginAuthResponse,
@@ -13,21 +11,8 @@ import { GoogleLogin } from "@react-oauth/google";
 const SocialLogin = () => {
   const googlelogin = useGoogleLogin();
   const facebookLogin = useFacebookLogin();
-  
+
   const facebookAppId = import.meta.env.VITE_APP_ID;
-
-  // useEffect(() => {
-  //   const initGapi = async () => {
-  //     await new Promise<void>((resolve) => {
-  //       gapi.load("client:auth2", () => {
-  //         gapi.client.init({ clientId: googleclientId });
-  //         resolve();
-  //       });
-  //     });
-  //   };
-
-  //   initGapi();
-  // }, [googleclientId]);
 
   const onFbSuccess = (response: FacebookLoginAuthResponse) => {
     const { accessToken, userID } = response.authResponse;

@@ -18,13 +18,8 @@ interface userType {
 }
 
 const UserProfile = () => {
-  const { auth } = useAuthSlice();
-  const { setAlert } = useAlertSlice();
   const [image, setImage] = useState<File | string>("");
-  const updateUser = useUpdateuser();
-  const resetPassword = useResetPassword();
   const [loading, setLoding] = useState(false);
-
   const [user, setUser] = useState<userType>({
     name: "",
     account: "",
@@ -32,6 +27,11 @@ const UserProfile = () => {
     password: "",
     confirmpassword: "",
   });
+  const { auth } = useAuthSlice();
+  const { setAlert } = useAlertSlice();
+  const updateUser = useUpdateuser();
+  const resetPassword = useResetPassword();
+
   useEffect(() => {
     if (auth?.user && user.avatar === "") {
       setUser({

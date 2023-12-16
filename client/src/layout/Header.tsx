@@ -24,15 +24,15 @@ const Header = () => {
 
   const path = [
     { nav: "Profile", path: "/profile" },
-    { nav: "Setting", path: "/setting" },
+    { nav: "Create-Blog", path: "/create-blog" },
   ];
 
   return (
-    <header className="navbar bg-secondary shadow-md">
-      <nav className=" container flex justify-between mx-auto absolute left-0 right-0 p-4">
+    <header className="navbar bg-secondary shadow-md sticky top-0 z-40">
+      <nav className=" container flex justify-between mx-auto absolute left-0 right-0 py-4">
         <div>
           <Link
-            to={"/"}
+            to={"blog"}
             className=" normal-case text-primary font-bold text-xl"
           >
             Phyrous Blog
@@ -51,7 +51,7 @@ const Header = () => {
             {auth?.user && (
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src={auth.user.avatar as string} alt="avatar" />
+                  <img src={auth?.user.avatar as string} alt="avatar" />
                 </div>
               </label>
             )}
@@ -66,6 +66,14 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+
+              {auth?.user?.role === "admin" && (
+                <li>
+                  <Link to={"/category"} className="justify-between p-2">
+                    Category
+                  </Link>
+                </li>
+              )}
               <div className="divider my-0" />
               <li>
                 <button onClick={handleLogout} className=" p-2">
@@ -115,6 +123,13 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+              {auth?.user?.role === "admin" && (
+                <li>
+                  <Link to={"/category"} className="justify-between p-2">
+                    Category
+                  </Link>
+                </li>
+              )}
               <div className="divider my-0" />
               <li className=" cursor-pointer">
                 <button className=" p-2" onClick={handleLogout}>

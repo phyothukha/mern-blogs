@@ -1,17 +1,18 @@
 import { userController } from "./../controller/user.controller";
+import {  authentication } from "../middleware/auth";
 import { Router } from "express";
-import { auth } from "../middleware/auth";
 
 const router = Router();
 
 const updateUser = router.patch(
   "/update-user",
-  auth,
+  authentication,
   userController.updateUserController
 );
 const resetpassword = router.patch(
   "/reset-password",
-  auth,
+  authentication,
+
   userController.resetPasswordController
 );
 

@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { IuserRegiser } from "../../store/server/auth/interface";
 import { valdRegister } from "../../utils/valid";
 import { useRegister } from "../../store/server/auth/mutation";
+import { IuserRegiser } from "../../store/server/interface";
 
 const Register = () => {
   const initialState = {
@@ -13,8 +13,8 @@ const Register = () => {
   };
   const [register, setRegister] = useState(initialState);
   const [error, setError] = useState<Partial<IuserRegiser>>({});
-  const registeruser = useRegister();
   const { name, account, password, confirmpassword } = register;
+  const registeruser = useRegister();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -140,7 +140,7 @@ const Register = () => {
         <p>
           Already have an account! Login
           <Link to={"/login"}>
-            <span className=" text-info"> Here</span>
+            <span className=" text-info">Here</span>
           </Link>
         </p>
       </div>

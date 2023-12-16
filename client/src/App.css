@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 #my-signin2 > div {
   @apply bg-secondary !border-none rounded-md !w-full;
 }
@@ -16,3 +20,14 @@
 input::-webkit-inner-spin-button {
   @apply appearance-none;
 }
+
+.main-scroll::-webkit-scrollbar-thumb {
+  @apply rounded-md opacity-5 bg-base-200;
+}
+.main-scroll::-webkit-scrollbar {
+  @apply w-2;
+}
+
+/* .active {
+  @apply bg-red-300;
+} */

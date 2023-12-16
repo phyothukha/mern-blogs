@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useTodoStore from "../../../store/test/store";
+import useTodoStore from "../../../../store/client/test/store";
 
 interface statusprops {
   title: string;

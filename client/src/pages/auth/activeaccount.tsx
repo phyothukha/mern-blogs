@@ -8,13 +8,13 @@ const ActiveAccount = () => {
   const [searchparams] = useSearchParams();
   const { setAlert } = useAlertSlice();
   const [message, setMessage] = useState("");
-
   const param = searchparams.get("active_token");
 
   const activeAccount = async (activeToken: string) => {
     const response = await axios.post("/active-account", { activeToken });
     return response;
   };
+
   useEffect(() => {
     if (param) {
       activeAccount(param)

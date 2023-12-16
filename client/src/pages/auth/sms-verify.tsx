@@ -7,15 +7,13 @@ import {
 import { useAuthSlice } from "../../store/client/authslice";
 
 const SmsVerify = () => {
-  {/* for statemanagement hook */}
-  const { state } = useLocation();
-  const { auth } = useAuthSlice();
-
-  [/**  for timer state */]
+  /**  for timer state */
   const [timer, setTimer] = useState(60);
   const [code, setCode] = useState("");
-
-  [/* for server data fetching state */]
+  /* for statemanagement hook */
+  const { state } = useLocation();
+  const { auth } = useAuthSlice();
+  /* for server data fetching state */
   const smsVerify = useSmsVerify();
   const navigate = useNavigate();
   const loginsms = useLoginWithSms();
@@ -39,10 +37,6 @@ const SmsVerify = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log({
-      phone: state.phone,
-      code,
-    });
     smsVerify.mutate({
       phone: state.phone,
       code,

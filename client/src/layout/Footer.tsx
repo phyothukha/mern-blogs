@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="footer bg-secondary justify-center text-neutral-content p-4 mx-auto">
+    <footer className="footer bg-secondary justify-center z-50 text-neutral-content p-4 mx-auto">
       <nav className="">
         <p>Copyright © 2023 - All right reserved</p>
         <div className=" flex gap-5 justify-center w-full">

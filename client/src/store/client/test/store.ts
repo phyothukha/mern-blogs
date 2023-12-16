@@ -17,7 +17,6 @@ interface Todostate {
 }
 
 const useTodoStore = create<Todostate>()(
-  // persist(
   devtools((set) => ({
     tasks: [],
     addTasks: (payload) =>
@@ -37,10 +36,6 @@ const useTodoStore = create<Todostate>()(
         ),
       })),
   }))
-  // {
-  //   name: "drag-store",
-  // }
-  // )
 );
 
 export default useTodoStore;
