@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axios } from "..";
-// import { ICategory, MutationProp, createCategoryPayload } from "./interface";
 import { useAuthSlice } from "../../client/authslice";
 import { useAlertSlice } from "../../client/alertslice";
 import { AxiosError } from "axios";

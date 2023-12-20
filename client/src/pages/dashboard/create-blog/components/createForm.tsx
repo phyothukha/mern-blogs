@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 import { useGetCategory } from "../../../../store/server/category/queries";
 import { checkImage } from "../../../../utils/imageupload";
 import { useAlertSlice } from "../../../../store/client/alertslice";
-import { Iblog } from "../../../../store/server/interface";
+import { Iblog } from "../../../../store/server/blog-post/interface";
 
 interface CreateFormProps {
   blog: Iblog;

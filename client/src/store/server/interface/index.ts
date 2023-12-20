@@ -65,25 +65,3 @@ export interface Iuser {
   user?: IAuthUser | null;
 }
 
-export interface Iblog {
-  _id?: string;
-  user: Iuser | string;
-  title: string;
-  content: string;
-  description: string;
-  thumbnail: File | string;
-  category?: string | ICategory;
-  createdAt: string;
-}
-
-export interface BlogPostType {
-  _id: string;
-  count: number;
-  name: string;
-  blogs: [Iblog];
-}
-
-export interface BlogDetailByCategoryType {
-  blogs: Iblog[];
-  total: number;
-}

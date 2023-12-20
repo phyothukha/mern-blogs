@@ -12,10 +12,14 @@ const createBlog = router.post(
 
 const getHomeBlog = router.get("/get/blogs", BlogController.getHomeBlog);
 const getBlogsByCategory = router.get(
-  "/blogs/:category_id",
+  "/blogs/category/:id",
   BlogController.getBlogsByCategory
 );
+const getBlogsByUser = router.get(
+  "/blogs/user/:id",
+  BlogController.getBlogsByUser
+);
 
-const blogRoute = [createBlog, getHomeBlog, getBlogsByCategory];
+const blogRoute = [createBlog, getHomeBlog, getBlogsByCategory, getBlogsByUser];
 
 export default blogRoute;

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { IconPhoto } from "@tabler/icons-react";
-import { Iblog } from "../../../../store/server/interface";
+import { Iblog } from "../../../../store/server/blog-post/interface";
 
 interface ShowFormProps {
   blog: Iblog;

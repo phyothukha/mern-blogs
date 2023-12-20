@@ -1,5 +1,4 @@
 import { FC } from "react";
-// import UsePagination from "../hooks/use-pagination";
 
 interface PaginationProps {
   total: number;

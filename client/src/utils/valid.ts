@@ -1,4 +1,5 @@
-import { Iblog, IuserLogin, IuserRegiser } from "../store/server/interface";
+import { Iblog } from "../store/server/blog-post/interface";
+import { IuserLogin, IuserRegiser } from "../store/server/interface";
 
 export const valdRegister = (register: IuserRegiser) => {
   const validationErr: Partial<IuserRegiser> = {};

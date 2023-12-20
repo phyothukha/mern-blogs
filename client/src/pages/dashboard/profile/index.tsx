@@ -8,18 +8,20 @@ import UserBlog from "./components/userblog";
 const Profile = () => {
   const [searchparams, setSearchParams] = useSearchParams();
   const { auth } = useAuthSlice();
+  const params = searchparams.get("userId");
 
   useEffect(() => {
-    if (auth?.user) {
-      setSearchParams({ userId: auth.user._id ?? "" });
+    if (!params) {
+      setSearchParams({ userId: auth?.user?._id ?? "" });
     }
-  }, [auth, setSearchParams]);
-  const params = searchparams.get("userId");
+  }, [setSearchParams, params, auth?.user?._id]);
 
   return (
     <div>
       <div className=" flex gap-5 items-start my-5">
-        {params === auth?.user?._id ? <UserProfile /> : <OtherProfile />}
+        <div className=" sticky top-24">
+          {params === auth?.user?._id ? <UserProfile /> : <OtherProfile />}
+        </div>
 
         <UserBlog />
       </div>

@@ -11,7 +11,7 @@ const ConfirmModal: FC<ConfimrProps> = ({ modalid, onConfrim }) => {
     <dialog id={modalid} className="modal">
       <div className="modal-box bg-red-900">
         <div className=" text-center">
-          <IconAlertTriangleFilled className="mx-auto w-24 h-24 " />
+          <IconAlertTriangleFilled className="mx-auto w-24 h-24" />
         </div>
         <h3 className=" text-center">Are you sure you want to delete this!</h3>
         <div className="modal-action">

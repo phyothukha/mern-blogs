@@ -1,5 +1,5 @@
 import { userController } from "./../controller/user.controller";
-import {  authentication } from "../middleware/auth";
+import { authentication } from "../middleware/auth";
 import { Router } from "express";
 
 const router = Router();
@@ -12,10 +12,11 @@ const updateUser = router.patch(
 const resetpassword = router.patch(
   "/reset-password",
   authentication,
-
   userController.resetPasswordController
 );
 
-const userRoutes = [updateUser, resetpassword];
+const getUser = router.get("/get-user/:id", userController.getUserController);
+
+const userRoutes = [updateUser, resetpassword, getUser];
 
 export default userRoutes;

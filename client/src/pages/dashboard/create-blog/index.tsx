@@ -3,11 +3,12 @@ import { useAuthSlice } from "../../../store/client/authslice";
 import { validationCreateBlog } from "../../../utils/valid";
 import { uploadImage } from "../../../utils/imageupload";
 import { useCreateBlog } from "../../../store/server/blog-post/mutation";
-import { Iblog } from "../../../store/server/interface";
 import Notfound from "../../notfound";
 import CreateForm from "./components/createForm";
 import ShowForm from "./components/showForm";
 import Quill from "../../../components/react-quill";
+import { useAlertSlice } from "../../../store/client/alertslice";
+import { Iblog } from "../../../store/server/blog-post/interface";
 
 const CreateBlog = () => {
   const initState = {
@@ -24,6 +25,7 @@ const CreateBlog = () => {
   const [blog, setBlog] = useState<Iblog>(initState);
   const [body, setBody] = useState("");
   const [text, setText] = useState("");
+  const { setAlert } = useAlertSlice();
   const { auth } = useAuthSlice();
   const divRef = useRef<HTMLDivElement>(null);
   const createBlog = useCreateBlog();
@@ -43,18 +45,19 @@ const CreateBlog = () => {
 
     if (Object.keys(validationErr).length > 0) {
       setError(validationErr);
-      return;
-    }
+      setAlert("your data  is required!", "ERROR");
+      setLoading(false);
+    } else {
+      const newData = { ...blog, content: body };
+      if (typeof newData.thumbnail !== "string") {
+        const photo = await uploadImage(newData.thumbnail);
+        newData.thumbnail = photo.secureUrl;
+      }
+      setLoading(false);
+      console.log(newData);
 
-    const newData = { ...blog, content: body };
-    if (typeof newData.thumbnail !== "string") {
-      const photo = await uploadImage(newData.thumbnail);
-      newData.thumbnail = photo.secureUrl;
+      createBlog.mutate(newData);
     }
-    setLoading(false);
-    console.log(newData);
-
-    createBlog.mutate(newData);
   };
 
   if (!auth?.access_token) return <Notfound />;

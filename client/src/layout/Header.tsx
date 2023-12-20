@@ -31,11 +31,10 @@ const Header = () => {
     <header className="navbar bg-secondary shadow-md sticky top-0 z-40">
       <nav className=" container flex justify-between mx-auto absolute left-0 right-0 py-4">
         <div>
-          <Link
-            to={"blog"}
-            className=" normal-case text-primary font-bold text-xl"
-          >
-            Phyrous Blog
+          <Link to={"blog"}>
+            <h1 className=" normal-case text-primary font-bold text-xl">
+              Phyrous Blog
+            </h1>
           </Link>
         </div>
         <div className="flex-none gap-2 lg:flex hidden">

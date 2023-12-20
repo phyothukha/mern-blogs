@@ -1,7 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { axios } from "..";
-import { BlogDetailByCategoryType, BlogPostType } from "../interface";
-import { BlogByCategoryPayload } from "./interface";
+import {
+  BlogByCategoryPayload,
+  BlogByUserPayload,
+  BlogDetailByCategoryType,
+  BlogDetailByUserType,
+  BlogPostType,
+} from "./interface";
 import { getParams } from "../../../utils/getParams";
 
 const getBlog = async () => {
@@ -29,7 +34,7 @@ const getBlogByCategory = async ({
 }: BlogByCategoryPayload): Promise<BlogDetailByCategoryType> => {
   const params = getParams(payload);
 
-  const res = await axios.get(`/blogs/${id}?${params}`);
+  const res = await axios.get(`/blogs/category/${id}?${params}`);
   return res.data;
 };
 
@@ -40,5 +45,23 @@ export const useGetBlogByCategory = ({
   return useQuery({
     queryKey: ["get-blog-byCategory", id, payload],
     queryFn: () => getBlogByCategory({ id, ...payload }),
+  });
+};
+
+const getBlogByUser = async ({
+  id,
+  ...payload
+}: BlogByUserPayload): Promise<BlogDetailByUserType> => {
+  const params = getParams(payload);
+
+  const res = await axios.get(`/blogs/user/${id}?${params}`);
+  console.log(res);
+  return res.data;
+};
+
+export const useGetBlogByUser = ({ id, ...payload }: BlogByUserPayload) => {
+  return useQuery({
+    queryKey: ["get-blog-byUser", id, payload],
+    queryFn: () => getBlogByUser({ id, ...payload }),
   });
 };

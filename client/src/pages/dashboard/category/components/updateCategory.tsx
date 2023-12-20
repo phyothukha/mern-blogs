@@ -10,17 +10,16 @@ const UpdateCategory: FC<UpdateProps> = ({ value }) => {
   const [name, setName] = useState(value.name);
   const updateCategory = useUpdateCategory();
 
-  const handleSubmit = () => {
-    console.log({ name });
-    updateCategory.mutate({ ...value, name });
-  };
-
   return (
     <dialog id={`update-category${value._id}`} className="modal">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Update Category</h3>
         <div className="modal-action">
-          <form method="dialog" className=" w-full" onSubmit={handleSubmit}>
+          <form
+            method="dialog"
+            className=" w-full"
+            onSubmit={() => updateCategory.mutate({ ...value, name })}
+          >
             <input
               type="text"
               value={name}
