@@ -15,8 +15,8 @@ import Profile from "./pages/dashboard/profile";
 import Category from "./pages/dashboard/category";
 import CreateBlog from "./pages/dashboard/create-blog";
 import MainSide from "./pages/dashboard/blogpost/components/mainside";
-import AllFile from "./pages/dashboard/blogpost/components/allfile";
 import BlogDetail from "./pages/dashboard/blogpost/components/blog-deatail";
+import AllFile from "./pages/dashboard/blogpost";
 
 const App = () => {
   useCheckOnline();

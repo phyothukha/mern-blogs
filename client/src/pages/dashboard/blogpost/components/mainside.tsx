@@ -3,6 +3,7 @@ import { useGetBlogByCategory } from "../../../../store/server/blog-post/queries
 import Pagination from "../../../../components/pagination";
 import UsePagination from "../../../../hooks/use-pagination";
 import BlogPost from "../../../../components/blogPost";
+import Loader from "../../../../components/loader";
 
 const MainSide = () => {
   const { id } = useParams();
@@ -17,18 +18,12 @@ const MainSide = () => {
     page,
   });
 
-  if (isLoading) {
-    return (
-      <div className=" justify-center h-screen flex items-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
-  }
+  if (isLoading) <Loader />;
 
   return (
     <div className=" my-4">
       {BlogDeatilData?.blogs.map((blog) => (
-        <BlogPost blog={blog} />
+        <BlogPost key={blog._id} blog={blog} />
       ))}
 
       {Number(BlogDeatilData?.total) > 1 && (

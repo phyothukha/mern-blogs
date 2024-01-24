@@ -23,6 +23,5 @@ export const useRefreshtoken = () => {
 export const logout = async () => {
   localStorage.clear();
   const res = await axios.get("/logout");
-
   return res.data;
 };

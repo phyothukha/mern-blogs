@@ -1,7 +1,6 @@
-import { IAuthUser } from "./../../../client/src/store/server/auth/interface";
-
 import { Request } from "express";
+import { Iuser } from ".";
 
 interface IRequest extends Request {
-  user: IAuthUser;
+  user: Iuser;
 }

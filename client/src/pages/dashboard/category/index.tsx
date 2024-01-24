@@ -7,16 +7,16 @@ import {
 } from "../../../store/server/category/mutation";
 import UpdateCategory from "./components/updateCategory";
 import ConfirmModal from "../../../components/confirmmodal";
+import Loader from "../../../components/loader";
 
 const Category = () => {
   const [name, setName] = useState("");
-  const { data } = useGetCategory();
+  const { data, isLoading } = useGetCategory();
   const createCategory = useCreateCategory();
   const deleteCategory = useDeleteCategory();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     createCategory.mutate(name);
     setName("");
   };
@@ -32,6 +32,8 @@ const Category = () => {
       document.getElementById(`delete-modal${id}`) as HTMLDialogElement
     ).showModal();
   };
+
+  if (isLoading) <Loader />;
 
   return (
     <div className="my-5 text-center">
@@ -49,7 +51,6 @@ const Category = () => {
           </button>
         </div>
       </form>
-
       <table className="table mx-auto w-60">
         <thead>
           <tr className=" font-bold text-xl  text-primary">
@@ -75,7 +76,7 @@ const Category = () => {
                   />
                   <ConfirmModal
                     modalid={`delete-modal${category._id}`}
-                    onConfrim={() => deleteCategory.mutate(category)}
+                    onConfirm={() => deleteCategory.mutate(category)}
                   />
                 </div>
               </td>

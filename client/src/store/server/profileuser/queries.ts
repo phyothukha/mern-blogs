@@ -4,8 +4,6 @@ import { IAuthUser } from "../interface";
 
 const getUser = async (id: string): Promise<IAuthUser> => {
   const res = await axios.get(`/get-user/${id}`);
-
-  console.log(res);
   return res.data;
 };
 

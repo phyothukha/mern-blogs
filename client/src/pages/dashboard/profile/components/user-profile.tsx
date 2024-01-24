@@ -87,14 +87,14 @@ const UserProfile = () => {
     <div className=" border rounded-md p-5">
       <form action="" onSubmit={handleSubmit} id="profile-update">
         <div className=" flex flex-col gap-5 items-center">
-          <div className="relative group rounded-full w-40 h-40 cursor-pointer overflow-hidden">
+          <div className="relative group rounded-full md:w-40 h-24  w-24 md:h-40 cursor-pointer overflow-hidden">
             <img
               src={
                 (image
                   ? URL.createObjectURL(image as File)
                   : user.avatar) as string
               }
-              alt=""
+              alt={user.name}
               className=" hover:scale-105 w-full h-full transition-transform duration-300 object-fill  absolute z-0"
             />
 
@@ -152,7 +152,7 @@ const UserProfile = () => {
           />
           <button
             type="submit"
-            className=" btn btn-primary w-80"
+            className=" btn btn-primary w-full btn-md max-w-xs"
             form="profile-update"
           >
             {(updateUser.isPending || loading) && (

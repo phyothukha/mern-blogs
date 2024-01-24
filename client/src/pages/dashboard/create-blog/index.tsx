@@ -72,9 +72,7 @@ const CreateBlog = () => {
           <ShowForm blog={blog} />
         </div>
       </div>
-
       <Quill setBody={setBody} text={text} />
-
       <div
         ref={divRef}
         dangerouslySetInnerHTML={{
@@ -82,7 +80,6 @@ const CreateBlog = () => {
         }}
         style={{ display: "none" }}
       />
-
       <button className=" btn btn-secondary mt-5" type="submit">
         {(loading || createBlog.isPending) && (
           <span className="loading loading-spinner loading-xs"></span>

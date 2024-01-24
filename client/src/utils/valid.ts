@@ -24,7 +24,6 @@ export const valdRegister = (register: IuserRegiser) => {
     validationErr.confirmpassword =
       "your confirm-password is not match password!";
   }
-
   return validationErr;
 };
 

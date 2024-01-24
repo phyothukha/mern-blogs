@@ -3,13 +3,15 @@ import { axios } from "..";
 import {
   BlogByCategoryPayload,
   BlogByUserPayload,
+  BlogDetail,
   BlogDetailByCategoryType,
   BlogDetailByUserType,
   BlogPostType,
+  SelectedBlog,
 } from "./interface";
 import { getParams } from "../../../utils/getParams";
 
-const getBlog = async () => {
+const getBlogs = async () => {
   const res = await axios.get("/get/blogs");
   return res.data;
 };
@@ -17,7 +19,7 @@ const getBlog = async () => {
 export const useGetBlogs = () => {
   return useQuery({
     queryKey: ["get-blogs"],
-    queryFn: () => getBlog(),
+    queryFn: () => getBlogs(),
     select: (data: BlogPostType[]) =>
       data.map((blog) => ({
         id: blog._id,
@@ -65,3 +67,38 @@ export const useGetBlogByUser = ({ id, ...payload }: BlogByUserPayload) => {
     queryFn: () => getBlogByUser({ id, ...payload }),
   });
 };
+
+const getBlog = async (id: string): Promise<BlogDetail> => {
+  const res = await axios.get(`/blog/detail/${id}`);
+  return res.data;
+};
+
+export const useGetBlog = (id: string) => {
+  return useQuery({
+    queryKey: ["get-blog", id],
+
+    queryFn: () => getBlog(id),
+    select: (data): SelectedBlog => ({
+      id: data._id,
+      content: data.content,
+      title: data.title,
+      description: data.description,
+      BlogImage: data.thumbnail,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+      user: data.user,
+      userId: data.user._id,
+      userImage: data.user.avatar,
+    }),
+  });
+};
+
+// _id: string;
+//   category: string;
+//   content: string;
+//   createdAt: string;
+//   description: string;
+//   thumbnail: string;
+//   title: string;
+//   updatedAt: string;
+//   user: IAuthUser;

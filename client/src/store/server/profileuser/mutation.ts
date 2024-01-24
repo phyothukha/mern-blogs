@@ -1,15 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axios } from "..";
+import { authHeader, axios } from "..";
 import { useAuthSlice } from "../../client/authslice";
 import { useAlertSlice } from "../../client/alertslice";
 import { AxiosError } from "axios";
 import { IuserPayload, MutationProp, resetPayload } from "../interface";
 
-const updateUser = async ({ token, payload }: MutationProp<IuserPayload>) => {
+const updateUser = async ({ payload }: MutationProp<IuserPayload>) => {
   const res = await axios.patch("/update-user", payload, {
-    headers: {
-      Authorization: token,
-    },
+    headers: authHeader(),
   });
   return res.data;
 };
@@ -20,7 +18,7 @@ export const useUpdateuser = () => {
   return useMutation({
     mutationFn: (payload: IuserPayload) =>
       updateUser({
-        token: auth?.access_token,
+        // token: auth?.access_token,
         payload,
       }),
     onSuccess: (data, variable) => {
@@ -45,14 +43,12 @@ export const useUpdateuser = () => {
   });
 };
 
-const resetPassword = async ({ token, password }: resetPayload) => {
+const resetPassword = async ({ password }: resetPayload) => {
   const res = await axios.patch(
     "/reset-password",
     { password },
     {
-      headers: {
-        Authorization: token,
-      },
+      headers: authHeader(),
     }
   );
   return res.data;

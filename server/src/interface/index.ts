@@ -37,3 +37,14 @@ export interface IuserParams {
   avatar?: string;
   type: string;
 }
+
+export interface IComment extends Document {
+  user: string;
+  content: string;
+  blog_id: string;
+  blog_user_id: string;
+  replyCM: string[];
+  reply_user: string;
+  _doc: object;
+  comment_root: string;
+}

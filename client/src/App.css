@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html {
+  scroll-behavior: smooth;
+} */
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -22,12 +26,38 @@ input::-webkit-inner-spin-button {
 }
 
 .main-scroll::-webkit-scrollbar-thumb {
-  @apply rounded-md opacity-5 bg-base-200;
+  @apply rounded-md opacity-5 bg-base-200 scroll-smooth;
 }
 .main-scroll::-webkit-scrollbar {
   @apply w-2;
 }
 
-/* .active {
-  @apply bg-red-300;
+/* .detail::view-transition-old(root) {
+  animation-duration: 0.5s;
+  animation: fade-and-scale-out 0.5s ease-in-out 1 forwards;
+}
+.detail2::view-transition-new(root) {
+  animation-duration: 10s;
+  animation: fade-and-scale-in 10s ease-in-out 1 forwards;
+}
+
+@keyframes fade-and-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fade-and-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
 } */

@@ -19,6 +19,9 @@ dependencies:
   axios:
     specifier: ^1.5.1
     version: 1.5.1
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   immer:
     specifier: ^10.0.3
     version: 10.0.3
@@ -1190,6 +1193,10 @@ packages:
     transitivePeerDependencies:
       - ts-node
     dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}

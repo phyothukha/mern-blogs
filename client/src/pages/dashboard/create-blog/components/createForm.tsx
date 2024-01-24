@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
 import { useGetCategory } from "../../../../store/server/category/queries";
 import { checkImage } from "../../../../utils/imageupload";
 import { useAlertSlice } from "../../../../store/client/alertslice";
@@ -13,12 +13,16 @@ interface CreateFormProps {
 const CreateForm: FC<CreateFormProps> = ({ blog, setBlog, error }) => {
   const { data: CategoryData } = useGetCategory();
   const { setAlert } = useAlertSlice();
+  const [err, seterr] = useState<Partial<Iblog> | null>(error);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setBlog({ ...blog, [name]: value });
+    if (!err) {
+      seterr(null);
+    }
   };
 
   const handleChangethumbnail = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +56,7 @@ const CreateForm: FC<CreateFormProps> = ({ blog, setBlog, error }) => {
             error.title ? "input-error" : "input-info"
           } w-full max-w-lg`}
         />
-        {error.title && <p className=" text-error text-sm">{error.title}</p>}
+        {err?.title && <p className=" text-error text-sm">{err.title}</p>}
       </label>
       <label htmlFor="blog-thumbnail" className=" form-control w-full">
         <div className=" label">
@@ -92,7 +96,6 @@ const CreateForm: FC<CreateFormProps> = ({ blog, setBlog, error }) => {
           <p className=" text-error text-sm">{error.description}</p>
         )}
       </label>
-
       <label htmlFor="blog-category" className=" form-control w-full">
         <div className=" label">
           <span className={`label-text ${error.category && " text-error"}`}>

@@ -1,32 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axios } from "..";
-import { useAuthSlice } from "../../client/authslice";
+import { authHeader, axios } from "..";
+// import { useAuthSlice } from "../../client/authslice";
 import { useAlertSlice } from "../../client/alertslice";
 import { AxiosError } from "axios";
 import { ICategory, MutationProp, createCategoryPayload } from "../interface";
 
-const createCategory = async ({ token, name }: createCategoryPayload) => {
+const createCategory = async ({ name }: createCategoryPayload) => {
   const res = await axios.post(
     "/category",
     { name },
-    {
-      headers: {
-        Authorization: token,
-      },
-    }
+    { headers: authHeader() }
   );
-
   return res.data;
 };
 
 export const useCreateCategory = () => {
-  const { auth } = useAuthSlice();
+  // const { auth } = useAuthSlice();
   const { setAlert } = useAlertSlice();
   const queryclient = useQueryClient();
 
   return useMutation({
-    mutationFn: (name: string) =>
-      createCategory({ token: auth?.access_token, name }),
+    mutationFn: (name: string) => createCategory({ name }),
     onSuccess: (data) => {
       setAlert(data.message, "SUCCESS");
     },
@@ -44,28 +38,26 @@ export const useCreateCategory = () => {
   });
 };
 
-const updateCategory = async ({ token, payload }: MutationProp<ICategory>) => {
+const updateCategory = async ({ payload }: MutationProp<ICategory>) => {
   const res = await axios.patch(
     `/category/${payload._id}`,
     { name: payload.name },
     {
-      headers: {
-        Authorization: token,
-      },
+      headers: authHeader(),
     }
   );
   return res.data;
 };
 
 export const useUpdateCategory = () => {
-  const { auth } = useAuthSlice();
+  // const { auth } = useAuthSlice();
   const { setAlert } = useAlertSlice();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (payload: ICategory) =>
       updateCategory({
-        token: auth?.access_token,
+        // token: auth?.access_token,
         payload: { ...payload, name: payload.name },
       }),
 
@@ -85,22 +77,19 @@ export const useUpdateCategory = () => {
   });
 };
 
-const deleteCategory = async ({ token, payload }: MutationProp<ICategory>) => {
+const deleteCategory = async ({ payload }: MutationProp<ICategory>) => {
   const res = await axios.delete(`/category/${payload._id}`, {
-    headers: {
-      Authorization: token,
-    },
+    headers: authHeader(),
   });
   return res.data;
 };
 
 export const useDeleteCategory = () => {
-  const { auth } = useAuthSlice();
+  // const { auth } = useAuthSlice();
   const { setAlert } = useAlertSlice();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: ICategory) =>
-      deleteCategory({ token: auth?.access_token, payload }),
+    mutationFn: (payload: ICategory) => deleteCategory({ payload }),
 
     onSuccess: (data) => {
       setAlert(data.message, "SUCCESS");

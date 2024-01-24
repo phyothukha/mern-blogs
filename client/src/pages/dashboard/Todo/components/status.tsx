@@ -8,12 +8,10 @@ interface statusprops {
 const Status = ({ title }: statusprops) => {
   const [text, setText] = useState("");
   const [drop, setdrop] = useState(false);
-
   const tasks = useTodoStore((store) =>
     store.tasks.filter((t) => t.status === title)
   );
   const addTasks = useTodoStore((store) => store.addTasks);
-
   const deletetasks = useTodoStore((store) => store.deleteTasks);
   const dragedTask = useTodoStore((store) => store.dragedTasks);
   const setDragTasks = useTodoStore((store) => store.setDraggedTask);
@@ -52,11 +50,9 @@ const Status = ({ title }: statusprops) => {
         >
           Add
         </button>
-
         <dialog id={title} className="modal modal-bottom sm:modal-middle">
           <div className="modal-box">
             <h3 className="font-bold text-lg">To Do List!</h3>
-
             <div className="modal-action">
               <form
                 method="dialog"
@@ -83,7 +79,6 @@ const Status = ({ title }: statusprops) => {
           </div>
         </dialog>
       </div>
-
       {tasks.map(({ id, text, status }) => {
         return (
           <div

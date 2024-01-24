@@ -1,34 +1,31 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axios } from "..";
-import { useAuthSlice } from "../../client/authslice";
+import { authHeader, axios } from "..";
+// import { useAuthSlice } from "../../client/authslice";
 import { MutationProp } from "../interface";
 import { Iblog } from "./interface";
 import { useNavigate } from "react-router-dom";
 import { useAlertSlice } from "../../client/alertslice";
 import { AxiosError } from "axios";
 
-const createBlog = async ({ token, payload }: MutationProp<Iblog>) => {
+const createBlog = async ({ payload }: MutationProp<Iblog>) => {
   const res = await axios.post(
     "/create/blog",
     { ...payload },
     {
-      headers: {
-        Authorization: token,
-      },
+      headers: authHeader(),
     }
   );
   return res.data;
 };
 
 export const useCreateBlog = () => {
-  const { auth } = useAuthSlice();
+  // const { auth } = useAuthSlice();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { setAlert } = useAlertSlice();
 
   return useMutation({
-    mutationFn: (payload: Iblog) =>
-      createBlog({ token: auth?.access_token, payload }),
+    mutationFn: (payload: Iblog) => createBlog({ payload }),
     onSuccess: (data) => {
       console.log(data);
       setAlert(data.message, "SUCCESS");
@@ -42,7 +39,6 @@ export const useCreateBlog = () => {
         err instanceof AxiosError
           ? err.response?.data.message
           : "Something went wrong!";
-
       setAlert(errMsg, "ERROR");
     },
   });

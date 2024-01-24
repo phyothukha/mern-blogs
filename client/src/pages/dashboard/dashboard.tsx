@@ -14,45 +14,27 @@ const Dashboard = () => {
   }, [navigate, location]);
 
   return (
-    <div className=" container h-screen">
-      <div className="grid grid-cols-4 h-full gap-3">
-        <div className=" col-span-1 bg-base-100 sticky">
-          <aside>
-            <div className=" flex flex-col transition-transform  ">
+    <div className=" container md:h-screen">
+      <div className=" md:grid md:grid-cols-3 h-full gap-3">
+        <div className="  col-span-1  bg-base-100">
+          <aside className=" flex md:flex-col flex-wrap justify-center transition-transform mt-3">
+            {CategoryData?.map(({ name, _id }) => (
               <NavLink
-                to={`/blog`}
-                className={`${
-                  location.pathname === "/blog"
-                    ? " bg-primary text-secondary"
-                    : " bg-base-200 "
-                } p-3  shadow-md rounded-md m-2 font-bold transition duration-700 delay-75 `}
+                key={_id}
+                to={`/blog-category/${_id}`}
+                className={({ isActive }) =>
+                  `${
+                    isActive ? " bg-info text-secondary" : " bg-base-200 "
+                  } text-center md:text-start p-3 rounded-md m-2 font-bold transition  duration-500 ease-in-out`
+                }
               >
-                All
+                {name.toLowerCase()}
               </NavLink>
-
-              {CategoryData?.map(({ name, _id }) => (
-                <NavLink
-                  key={_id}
-                  to={`/blog-category/${_id}`}
-                  className={({ isActive }) =>
-                    `${
-                      isActive ? " bg-primary text-secondary" : " bg-base-200 "
-                    } p-3  shadow-md rounded-md m-2 font-bold transition duration-700 delay-75 `
-                  }
-                >
-                  {name.toLowerCase()}
-                </NavLink>
-              ))}
-            </div>
+            ))}
           </aside>
         </div>
-        <div className=" col-span-2  h-screen overflow-y-scroll main-scroll">
-          <div className="">
-            <Outlet />
-          </div>
-        </div>
-        <div className=" col-span-1 bg-base-100">
-          <h1>hello left bar side</h1>
+        <div className=" col-span-2  md:h-screen md:overflow-y-scroll main-scroll">
+          <Outlet />
         </div>
       </div>
     </div>

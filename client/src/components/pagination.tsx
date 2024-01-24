@@ -7,7 +7,19 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ total, page, handlePage }) => {
-  const PaginationArray = [...Array(total)].map((_, i) => i + 1);
+  // const PaginationArray = [...Array(total)].map((_, i) => i + 1);
+  const generatePageArray = () => {
+    const pageArray = [];
+    for (let i = 1; i <= total; i++) {
+      if (i <= 1 || i >= total || (i >= page - 1 && i <= page + 1)) {
+        pageArray.push(i);
+      } else if (pageArray[pageArray.length - 1] !== "ellipsis") {
+        pageArray.push("ellipsis");
+      }
+    }
+    return pageArray;
+  };
+  generatePageArray();
 
   return (
     <div className=" text-end m-3">
@@ -19,13 +31,18 @@ const Pagination: FC<PaginationProps> = ({ total, page, handlePage }) => {
         >
           «
         </button>
-        {PaginationArray.map((num) => (
+
+        {generatePageArray().map((num, idx) => (
           <button
-            key={num}
-            className={`join-item btn ${page == num && "btn-active"}`}
-            onClick={() => handlePage(num)}
+            key={idx}
+            className={` join-item btn ${page == num && " btn-active"} ${
+              num === "ellipsis" && "btn-disabled"
+            }`}
+            onClick={() =>
+              num !== "ellipsis" ? handlePage(Number(num)) : null
+            }
           >
-            {num}
+            {num === "ellipsis" ? "..." : num}
           </button>
         ))}
 

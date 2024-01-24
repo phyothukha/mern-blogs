@@ -28,6 +28,7 @@ app.use("/api", router.authRoute);
 app.use("/api", router.userRoutes);
 app.use("/api", router.categoryRoute);
 app.use("/api", router.blogRoute);
+app.use("/api", router.CommentRoute);
 
 /**  connecting to databases */
 

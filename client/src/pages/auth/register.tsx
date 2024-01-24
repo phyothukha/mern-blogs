@@ -13,6 +13,8 @@ const Register = () => {
   };
   const [register, setRegister] = useState(initialState);
   const [error, setError] = useState<Partial<IuserRegiser>>({});
+  const [type, setType] = useState(false);
+  const [cfType, setCfType] = useState(false);
   const { name, account, password, confirmpassword } = register;
   const registeruser = useRegister();
 
@@ -33,15 +35,12 @@ const Register = () => {
     registeruser.mutate(register);
   };
 
-  const [type, setType] = useState(false);
-
   return (
     <div className=" flex justify-center items-center h-screen">
       <div className=" w-96 p-5 rounded-md border-2 border-secondary space-y-3">
         <h1 className=" text-secondary font-bold text-2xl text-center capitalize">
           Register
         </h1>
-
         <form action="" id="register-submit" onSubmit={handleSubmit}>
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">
@@ -59,7 +58,6 @@ const Register = () => {
             } w-full`}
           />
           {error.name && <p className=" text-error text-sm">{error.name}</p>}
-
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">
               Email/Phone number
@@ -78,7 +76,6 @@ const Register = () => {
           {error.account && (
             <p className=" text-error text-sm">{error.account}</p>
           )}
-
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">
               Password
@@ -112,7 +109,7 @@ const Register = () => {
           </label>
           <div className=" relative ">
             <input
-              type={type ? "text" : "password"}
+              type={cfType ? "text" : "password"}
               onChange={handleChange}
               value={confirmpassword}
               name="confirmpassword"
@@ -120,10 +117,10 @@ const Register = () => {
               className={`input placeholder:opacity-30 input-bordered text-primary  input-secondary w-full`}
             />
             <p
-              onClick={() => setType(!type)}
+              onClick={() => setCfType(!cfType)}
               className=" absolute right-2 top-3 cursor-pointer select-none "
             >
-              {type ? "hide" : "show"}
+              {cfType ? "hide" : "show"}
             </p>
           </div>
           {error.confirmpassword && (

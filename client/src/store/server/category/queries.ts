@@ -4,7 +4,6 @@ import { ICategory } from "../interface";
 
 const getCategory = async () => {
   const res = await axios.get("/category");
-
   return res.data.Category;
 };
 

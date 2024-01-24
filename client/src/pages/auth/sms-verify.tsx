@@ -55,7 +55,6 @@ const SmsVerify = () => {
         <h1 className=" text-secondary font-bold text-2xl text-center capitalize">
           Verify Code
         </h1>
-
         <form action="" onSubmit={handleSubmit}>
           <label className="label">
             <span className="label-text text-secondary-content  capitalize">

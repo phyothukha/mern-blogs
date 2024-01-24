@@ -3,10 +3,10 @@ import { FC } from "react";
 
 interface ConfimrProps {
   modalid: string;
-  onConfrim: () => void;
+  onConfirm: () => void;
 }
 
-const ConfirmModal: FC<ConfimrProps> = ({ modalid, onConfrim }) => {
+const ConfirmModal: FC<ConfimrProps> = ({ modalid, onConfirm }) => {
   return (
     <dialog id={modalid} className="modal">
       <div className="modal-box bg-red-900">
@@ -19,7 +19,7 @@ const ConfirmModal: FC<ConfimrProps> = ({ modalid, onConfrim }) => {
             <button className=" btn btn-outline btn-error btn-lg">
               Cancel
             </button>
-            <button className="btn btn-success btn-lg" onClick={onConfrim}>
+            <button className="btn btn-success btn-lg" onClick={onConfirm}>
               Confirm
             </button>
           </form>

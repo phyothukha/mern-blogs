@@ -232,9 +232,24 @@ const getBlogsByUser = async (req: Request, res: Response) => {
   }
 };
 
+const getBlog = async (req: Request, res: Response) => {
+  try {
+    const blog = await Blogs.findOne({ _id: req.params.id }).populate(
+      "user",
+      "-password"
+    );
+    if (!blog) return res.status(400).json({ message: "Blog does not exits!" });
+
+    return res.status(200).json(blog);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
 export const BlogController = {
   createBlog,
   getHomeBlog,
   getBlogsByCategory,
   getBlogsByUser,
+  getBlog,
 };

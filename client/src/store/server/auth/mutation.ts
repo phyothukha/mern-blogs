@@ -49,13 +49,11 @@ export const useLogin = () => {
 
 const registeruser = async (user: IuserRegiser) => {
   const response = await axios.post("/register", user);
-
   return response.data;
 };
 
 export const useRegister = () => {
   const { setAlert } = useAlertSlice();
-
   return useMutation({
     mutationFn: (user: IuserRegiser) => registeruser(user),
     onSuccess: (data) => {
@@ -93,7 +91,6 @@ export const useGoogleLogin = () => {
       setAlert(data.message, "SUCCESS");
       navigate("/");
     },
-
     onError: (err) => {
       const errMsg =
         err instanceof AxiosError
@@ -181,7 +178,6 @@ export const useLoginWithSms = () => {
 
 const SmsVerify = async (payload: ISmsPayload) => {
   const res = await axios.post("/sms_verify", payload);
-
   return res.data;
 };
 

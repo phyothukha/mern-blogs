@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useLogin, useLoginWithSms } from "../../store/server/auth/mutation";
 import { validLogin, validatePhone } from "../../utils/valid";
@@ -8,8 +8,10 @@ import { IuserLogin } from "../../store/server/interface";
 
 const Login = () => {
   const initialState = { account: "", password: "" };
+  const location = useLocation();
   const navigate = useNavigate();
   const loginsms = useLoginWithSms();
+  const loginuser = useLogin();
   const [sms, setsms] = useState(false);
   const [login, setLogin] = useState(initialState);
   const [phone, setPhone] = useState("");
@@ -17,7 +19,6 @@ const Login = () => {
   const [type, setType] = useState(false);
   const { account, password } = login;
   const { auth } = useAuthSlice();
-  const loginuser = useLogin();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -57,9 +58,9 @@ const Login = () => {
 
   useEffect(() => {
     if (auth?.access_token) {
-      navigate("/");
+      navigate(location.state ? location.state : "/");
     }
-  }, [auth, navigate]);
+  }, [auth, navigate, location]);
 
   return (
     <div className=" flex justify-center items-center h-screen">
@@ -67,7 +68,6 @@ const Login = () => {
         <h1 className=" text-secondary font-bold text-2xl text-center capitalize">
           Login
         </h1>
-
         {sms ? (
           <form action="" onSubmit={handlePhoneSubmit} id="phone-submit">
             <label className="label">
@@ -109,7 +109,6 @@ const Login = () => {
             {error?.account && (
               <p className=" text-error text-sm">{error?.account}</p>
             )}
-
             <label className="label">
               <span className="label-text text-secondary-content  capitalize">
                 Password
@@ -142,7 +141,6 @@ const Login = () => {
           <Link to={"/forgot-password"}>
             <p>Forgot Password</p>
           </Link>
-
           <small
             onClick={() => setsms(!sms)}
             className=" cursor-pointer select-none"
@@ -150,7 +148,6 @@ const Login = () => {
             {sms ? "login with password" : "login with sms"}
           </small>
         </div>
-
         {sms ? (
           <button
             type="submit"
@@ -175,7 +172,6 @@ const Login = () => {
           </button>
         )}
         <SocialLogin />
-
         <p>
           Don't you have an account yet! Register
           <Link to={"/register"}>
