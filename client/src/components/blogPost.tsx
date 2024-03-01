@@ -15,7 +15,6 @@ const BlogPost: FC<BlogPostProps> = ({ blog }) => {
   const handleTransition = (e: FormEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (document.startViewTransition) {
       document.startViewTransition(() => {
         flushSync(async () => {

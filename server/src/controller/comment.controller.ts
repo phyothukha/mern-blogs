@@ -17,7 +17,6 @@ const createComment = async (req: IRequest, res: Response) => {
     });
 
     await newComment.save();
-
     return res
       .status(201)
       .json({ message: "comment create successfully!", newComment });
@@ -45,12 +44,34 @@ const getComments = async (req: Request, res: Response) => {
                 as: "user",
               },
             },
-            { $unwind: "$user" },
           ],
-          totalCount: [],
         },
       },
     ]);
+    console.log(data);
+    // const data = await Comments.aggregate([
+    //   {
+    //     $facet: {
+    //       totalData: [
+    //         {
+    //           $match: {
+    //             blog_id: new mongoose.Types.ObjectId(req.params.id),
+    //           },
+    //         },
+    //         {
+    //           $lookup: {
+    //             from: "users",
+    //             localField: "user",
+    //             foreignField: "_id",
+    //             as: "user",
+    //           },
+    //         },
+    //         { $unwind: "$user" },
+    //       ],
+    //       totalCount: [],
+    //     },
+    //   },
+    // ]);
 
     // const data = await Comments.aggregate([
     //   {
@@ -135,7 +156,7 @@ const getComments = async (req: Request, res: Response) => {
     //   },
     // ]);
 
-    return res.status(200).json(data);
+    return res.status(200).json({ message: " you are in getComment route!" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

@@ -11,7 +11,7 @@ const ShowForm: FC<ShowFormProps> = ({ blog }) => {
     <div className="hero w-full h-auto bg-base-200">
       <div className="hero-content flex-col justify-between items-center md:items-start md:flex-row w-full">
         <div
-          className={` min-w-[150px] max-w-[250px]  flex object-cover rounded-md  
+          className={` min-w-[150px] max-w-[250px]  flex object-cover rounded-md
           ${
             blog.thumbnail
               ? " w-80  h-56"

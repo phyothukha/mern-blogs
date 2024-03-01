@@ -7,7 +7,7 @@ import Comment from "../../comment/comments";
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const { data: getBlog, isLoading } = useGetBlog(id || "");
+  const { data: getBlog, isLoading } = useGetBlog(id ?? "");
 
   const location = useLocation();
   const navigate = useNavigate();

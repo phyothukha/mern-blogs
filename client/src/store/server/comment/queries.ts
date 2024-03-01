@@ -8,7 +8,6 @@ const getComments = async ({
   ...payload
 }: getCommentPayload): Promise<Comment> => {
   const params = getParams(payload);
-
   const res = await axios.get(`/get/comment/${id}?${params}`);
   return res.data;
 };

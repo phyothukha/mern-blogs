@@ -1,22 +1,28 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { useAuthSlice } from "./store/client/authslice";
 import { useRefreshtoken } from "./store/server/auth/queries";
-import Dashboard from "./pages/dashboard/dashboard";
-import Layout from "./layout/Layout";
-import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
-import Todo from "./pages/dashboard/Todo/todo";
-import Notfound from "./pages/notfound";
-import ActiveAccount from "./pages/auth/activeaccount";
 import useCheckOnline from "./hooks/usecheckonline";
-import SmsVerify from "./pages/auth/sms-verify";
-import Profile from "./pages/dashboard/profile";
-import Category from "./pages/dashboard/category";
-import CreateBlog from "./pages/dashboard/create-blog";
-import MainSide from "./pages/dashboard/blogpost/components/mainside";
-import BlogDetail from "./pages/dashboard/blogpost/components/blog-deatail";
-import AllFile from "./pages/dashboard/blogpost";
+import Loader from "./components/loader";
+import Layout from "./layout/Layout";
+
+const Dashboard = lazy(() => import("./pages/dashboard/dashboard"));
+const Login = lazy(() => import("./pages/auth/login"));
+const Register = lazy(() => import("./pages/auth/register"));
+const Todo = lazy(() => import("./pages/dashboard/Todo/todo"));
+const Notfound = lazy(() => import("./pages/notfound"));
+const ActiveAccount = lazy(() => import("./pages/auth/activeaccount"));
+const SmsVerify = lazy(() => import("./pages/auth/sms-verify"));
+const Profile = lazy(() => import("./pages/dashboard/profile"));
+const Category = lazy(() => import("./pages/dashboard/category"));
+const CreateBlog = lazy(() => import("./pages/dashboard/create-blog"));
+const BlogDetail = lazy(
+  () => import("./pages/dashboard/blogpost/components/blog-deatail")
+);
+const MainSide = lazy(
+  () => import("./pages/dashboard/blogpost/components/mainside")
+);
+const AllFile = lazy(() => import("./pages/dashboard/blogpost"));
 
 const App = () => {
   useCheckOnline();
@@ -100,9 +106,9 @@ const App = () => {
   ]);
 
   return (
-    <div>
+    <Suspense fallback={<Loader />}>
       <RouterProvider router={router} />
-    </div>
+    </Suspense>
   );
 };
 

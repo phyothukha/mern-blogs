@@ -55,7 +55,6 @@ const CreateBlog = () => {
       }
       setLoading(false);
       console.log(newData);
-
       createBlog.mutate(newData);
     }
   };

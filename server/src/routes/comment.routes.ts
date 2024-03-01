@@ -13,12 +13,12 @@ const getComments = router.get(
   "/get/comment/:id",
   CommentController.getComments
 );
-const replyComment = router.post(
-  "/reply/comment",
-  authentication,
-  CommentController.replyComment
-);
+// const replyComment = router.post(
+//   "/reply/comment",
+//   authentication,
+//   CommentController.replyComment
+// );
 
-const CommentRoute = [createComment, getComments, replyComment];
+const CommentRoute = [createComment, getComments];
 
 export default CommentRoute;

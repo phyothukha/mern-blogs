@@ -13,6 +13,7 @@ import { getParams } from "../../../utils/getParams";
 
 const getBlogs = async () => {
   const res = await axios.get("/get/blogs");
+  console.log(res);
   return res.data;
 };
 
@@ -37,6 +38,7 @@ const getBlogByCategory = async ({
   const params = getParams(payload);
 
   const res = await axios.get(`/blogs/category/${id}?${params}`);
+  console.log(res);
   return res.data;
 };
 
@@ -70,6 +72,7 @@ export const useGetBlogByUser = ({ id, ...payload }: BlogByUserPayload) => {
 
 const getBlog = async (id: string): Promise<BlogDetail> => {
   const res = await axios.get(`/blog/detail/${id}`);
+
   return res.data;
 };
 

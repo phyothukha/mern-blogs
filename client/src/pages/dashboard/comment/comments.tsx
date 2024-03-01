@@ -34,7 +34,6 @@ const Comment: FC<IBlogCommentProps> = ({ getBlog }) => {
       blog_user_id: String((getBlog?.user as IAuthUser)?._id),
       createdAt: new Date().toISOString(),
     };
-
     createComment.mutate(data);
   };
 
@@ -44,6 +43,7 @@ const Comment: FC<IBlogCommentProps> = ({ getBlog }) => {
   return (
     <>
       <h1 className=" text-2xl text-secondary-content">⭐ Comment ⭐</h1>
+
       {auth?.user ? (
         <NewComment handleComment={handleComment} />
       ) : (

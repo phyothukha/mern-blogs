@@ -27,7 +27,6 @@ export const useCreateComment = () => {
         err instanceof AxiosError
           ? err.response?.data.message
           : "something went wrong!";
-
       setAlert(errMsg, "ERROR");
     },
   });
