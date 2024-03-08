@@ -41,21 +41,21 @@ const CreateBlog = () => {
     setLoading(true);
     if (!auth?.access_token) return;
     const validationErr = validationCreateBlog({ ...blog, content: text });
-    console.log(validationErr);
+    // console.log(validationErr);
 
     if (Object.keys(validationErr).length > 0) {
       setError(validationErr);
       setAlert("your data  is required!", "ERROR");
       setLoading(false);
     } else {
-      const newData = { ...blog, content: body };
+      const newData = { ...blog, content: body, user: auth.user?._id };
       if (typeof newData.thumbnail !== "string") {
         const photo = await uploadImage(newData.thumbnail);
         newData.thumbnail = photo.secureUrl;
       }
-      setLoading(false);
+      // setLoading(false);
       console.log(newData);
-      createBlog.mutate(newData);
+      // createBlog.mutate(newData);
     }
   };
 
@@ -80,9 +80,9 @@ const CreateBlog = () => {
         style={{ display: "none" }}
       />
       <button className=" btn btn-secondary mt-5" type="submit">
-        {(loading || createBlog.isPending) && (
+        {/* {(loading || createBlog.isPending) && (
           <span className="loading loading-spinner loading-xs"></span>
-        )}
+        )} */}
         Post
       </button>
     </form>

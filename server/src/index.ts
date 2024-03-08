@@ -12,6 +12,8 @@ const app = express();
 const PORT = process.env.PORT;
 app.use(cookieParser());
 
+console.log(PORT);
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -28,7 +30,7 @@ app.use("/api", router.authRoute);
 app.use("/api", router.userRoutes);
 app.use("/api", router.categoryRoute);
 app.use("/api", router.blogRoute);
-app.use("/api", router.CommentRoute);
+app.use("/api", router.commentRoute);
 
 /**  connecting to databases */
 

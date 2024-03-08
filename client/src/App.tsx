@@ -11,7 +11,7 @@ const Login = lazy(() => import("./pages/auth/login"));
 const Register = lazy(() => import("./pages/auth/register"));
 const Todo = lazy(() => import("./pages/dashboard/Todo/todo"));
 const Notfound = lazy(() => import("./pages/notfound"));
-const ActiveAccount = lazy(() => import("./pages/auth/activeaccount"));
+const ActiveAccount = lazy(() => import("./pages/auth/activeAccount"));
 const SmsVerify = lazy(() => import("./pages/auth/sms-verify"));
 const Profile = lazy(() => import("./pages/dashboard/profile"));
 const Category = lazy(() => import("./pages/dashboard/category"));

@@ -3,12 +3,13 @@ import { SelectedComment } from "../../../../store/server/comment/interface";
 import { useNavigate } from "react-router-dom";
 import NewComment from "./newComment";
 import { useAuthSlice } from "../../../../store/client/authslice";
-import { useReplyComment } from "../../../../store/server/comment/mutation";
+// import { useReplyComment } from "../../../../store/server/comment/mutation";
 
 interface ShowCommentProps {
   comment: SelectedComment;
   children?: ReactNode;
   replycmt: SelectedComment[];
+  show?: boolean;
   setReplycmt: (replycmt: SelectedComment[]) => void;
 }
 
@@ -17,11 +18,12 @@ const ShowComments: FC<ShowCommentProps> = ({
   children,
   replycmt,
   setReplycmt,
+  show,
 }) => {
   const [reply, setReply] = useState(false);
   const navigate = useNavigate();
   const { auth } = useAuthSlice();
-  const replyComment = useReplyComment();
+  // const replyComment = useReplyComment();
   const handleReply = (body: string) => {
     if (!auth?.access_token || !auth.user) return;
     const data = {
@@ -30,14 +32,28 @@ const ShowComments: FC<ShowCommentProps> = ({
       blog_id: comment.blog_id,
       blog_user_id: comment.blog_user_id,
       reply_user: comment.user,
-      comment_root: comment.comment_root || comment.id,
+      comment_root: comment.id,
       createdAt: new Date().toISOString(),
     };
 
-    setReplycmt([...replycmt, data]);
-    replyComment.mutate(data);
-
+    console.log(data);
     setReply(false);
+    setReplycmt([data, ...replycmt]);
+
+    // const data = {
+    //   user: auth.user,
+    //   content: body,
+    //   blog_id: comment.blog_id,
+    //   blog_user_id: comment.blog_user_id,
+    //   reply_user: comment.user,
+    //   comment_root: comment.comment_root || comment.id,
+    //   createdAt: new Date().toISOString(),
+    // };
+
+    // setReplycmt([...replycmt, data]);
+    // replyComment.mutate(data);
+
+    // setReply(false);
   };
 
   return (
@@ -58,6 +74,8 @@ const ShowComments: FC<ShowCommentProps> = ({
               >
                 {comment?.user.name}
               </span>
+              {show && <h1>Reply To</h1>}
+
               <div
                 className=" p-3 bg-base-300 rounded-md w-[500px]"
                 dangerouslySetInnerHTML={{

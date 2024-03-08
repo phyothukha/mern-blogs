@@ -10,6 +10,7 @@ export interface IComment {
   reply_user?: IAuthUser;
   comment_root?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface getCommentPayload extends ApiPayload {
@@ -31,4 +32,10 @@ export interface SelectedComment {
   reply_user?: IAuthUser;
   createdAt: string;
   comment_root?: string;
+}
+
+export interface CreateComment {
+  content: string;
+  blog_id: string;
+  blog_user_id: string;
 }

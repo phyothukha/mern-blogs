@@ -57,7 +57,9 @@ const BlogDetail = () => {
           dangerouslySetInnerHTML={{
             __html: getBlog?.content as string,
           }}
-        />
+        >
+          {/* {getBlog?.content as string} */}
+        </div>
         <Comment getBlog={getBlog} />
       </div>
     </div>

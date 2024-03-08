@@ -17,7 +17,6 @@ const MainSide = () => {
     id: String(id),
     page,
   });
-  console.log(BlogDeatilData);
 
   if (isLoading) <Loader />;
 

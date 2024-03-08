@@ -3,9 +3,10 @@ import LiteQuill from "../../../../components/lite-quill";
 
 interface INewCommentProps {
   handleComment: (body: string) => void;
+  loading?: boolean;
 }
 
-const NewComment: FC<INewCommentProps> = ({ handleComment }) => {
+const NewComment: FC<INewCommentProps> = ({ handleComment, loading }) => {
   const [body, setBody] = useState("");
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ const NewComment: FC<INewCommentProps> = ({ handleComment }) => {
         className=" hidden"
       />
       <button className=" btn btn-primary mt-2" onClick={handleClick}>
+        {loading && <span className="loading loading-spinner"></span>}
         Send
       </button>
     </div>

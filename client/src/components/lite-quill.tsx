@@ -8,6 +8,16 @@ interface QuillReactProps {
 }
 
 const LiteQuill: FC<QuillReactProps> = ({ setBody, body }) => {
+  const container = [
+    [{ font: [] }],
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ align: [] }],
+    ["link", "image", "video"],
+  ];
+
   const modules = { toolbar: { container } };
 
   return (
@@ -15,30 +25,14 @@ const LiteQuill: FC<QuillReactProps> = ({ setBody, body }) => {
       <ReactQuill
         modules={modules}
         value={body}
+        className=" rounded-md"
         onChange={(e) => setBody(e)}
-        placeholder=" write Something..."
+        placeholder=" Write Something..."
       />
     </div>
   );
 };
 
 /*go to https://quilljs.com/docs/modules/toolbar & https://www.npmjs.com/package/react-quill*/
-const container = [
-  [{ font: [] }],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ size: ["small", false, "large", "huge"] }], // custom dropdown
-
-  ["bold", "italic", "underline", "strike"], // toggled buttons
-  ["blockquote", "code-block"],
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [{ script: "sub" }, { script: "super" }], // superscript/subscript
-
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-  [{ direction: "rtl" }], // text direction
-  [{ align: [] }],
-
-  ["clean", "link", "image", "video"],
-];
 
 export default LiteQuill;

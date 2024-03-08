@@ -45,6 +45,6 @@ export interface IComment extends Document {
   blog_user_id: string;
   replyCM: string[];
   reply_user: string;
-  _doc: object;
   comment_root: string;
+  _doc: object;
 }

@@ -1,7 +1,7 @@
+import { commentRoute } from "./comment.routes";
 import authRoute from "./auth.routes";
 import blogRoute from "./blog.routes";
 import categoryRoute from "./category.routes";
-import CommentRoute from "./comment.routes";
 import userRoutes from "./user.routes";
 
 const router = {
@@ -9,7 +9,7 @@ const router = {
   userRoutes,
   categoryRoute,
   blogRoute,
-  CommentRoute,
+  commentRoute,
 };
 
 export default router;

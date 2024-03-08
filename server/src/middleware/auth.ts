@@ -11,6 +11,7 @@ export const authentication = async (
 ) => {
   try {
     const token = req.header("Authorization");
+    console.log(token);
     if (!token)
       return res.status(400).json({ message: "Invalid authentication!" });
 
@@ -46,7 +47,6 @@ export const AdminPersmission = async (
 
     if (req.user.role !== "admin")
       return res.status(400).json({ message: "invalid user Authentication!" });
-
     next();
   } catch (err) {
     return res.status(500).json({ message: err.message });

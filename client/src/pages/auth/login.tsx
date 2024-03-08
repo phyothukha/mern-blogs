@@ -10,9 +10,9 @@ const Login = () => {
   const initialState = { account: "", password: "" };
   const location = useLocation();
   const navigate = useNavigate();
-  const loginsms = useLoginWithSms();
-  const loginuser = useLogin();
-  const [sms, setsms] = useState(false);
+  const loginSms = useLoginWithSms();
+  const loginUser = useLogin();
+  const [sms, setSms] = useState(false);
   const [login, setLogin] = useState(initialState);
   const [phone, setPhone] = useState("");
   const [error, setError] = useState<Partial<IuserLogin | null>>({});
@@ -35,7 +35,7 @@ const Login = () => {
       setError(validationErr);
       return;
     }
-    loginuser.mutate(login);
+    loginUser.mutate(login);
   };
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,10 +49,10 @@ const Login = () => {
 
     const check = validatePhone(phone);
     if (!check) {
-      setError({ phone: "your phone number is not format dooo" });
+      setError({ phone: "your phone number is not format" });
     } else {
       setError(null);
-      loginsms.mutate({ phone });
+      loginSms.mutate({ phone });
     }
   };
 
@@ -142,7 +142,7 @@ const Login = () => {
             <p>Forgot Password</p>
           </Link>
           <small
-            onClick={() => setsms(!sms)}
+            onClick={() => setSms(!sms)}
             className=" cursor-pointer select-none"
           >
             {sms ? "login with password" : "login with sms"}
@@ -154,8 +154,8 @@ const Login = () => {
             className=" btn btn-secondary w-full"
             form="phone-submit"
           >
-            {loginsms.isPending && (
-              <span className="loading loading-spinner loading-xs"></span>
+            {loginSms.isPending && (
+              <span className="loading loading-spinner loading-xs" />
             )}
             Login
           </button>
@@ -165,8 +165,8 @@ const Login = () => {
             form="account-submit"
             className=" btn btn-secondary w-full"
           >
-            {loginuser.isPending && (
-              <span className="loading loading-spinner loading-xs"></span>
+            {loginUser.isPending && (
+              <span className="loading loading-spinner loading-xs" />
             )}
             Login
           </button>
